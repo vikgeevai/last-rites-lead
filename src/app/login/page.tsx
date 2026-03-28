@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { Target, Mail, Lock, Eye, EyeOff, ArrowRight, Info } from "lucide-react";
+import { Target, Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
@@ -40,9 +40,23 @@ export default function LoginPage() {
       return;
     }
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1100));
-    setLoading(false);
-    router.push("/dashboard");
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      if (res.ok) {
+        router.push("/dashboard");
+      } else {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? "Invalid email or password.");
+      }
+    } catch {
+      setError("Network error — please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -130,15 +144,6 @@ export default function LoginPage() {
             <p className="text-sm" style={{ color: "var(--text-secondary)", fontWeight: 300 }}>
               Sign in to your command centre.
             </p>
-          </div>
-
-          {/* Demo notice */}
-          <div
-            className="flex items-start gap-3 p-4 mb-8 border text-sm"
-            style={{ background: "rgba(56,189,248,0.06)", borderColor: "rgba(56,189,248,0.2)", color: "var(--accent-light)" }}
-          >
-            <Info size={15} className="flex-shrink-0 mt-0.5" />
-            <span style={{ fontWeight: 300 }}>Demo mode — any email &amp; password works to explore the full dashboard.</span>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5" noValidate>

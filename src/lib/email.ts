@@ -132,11 +132,35 @@ export async function sendCustomerEmail(data: {
 </body>
 </html>`.trim();
 
+  const text = `Dear ${data.name},
+
+Thank you for reaching out to Indian Life Memorial. We have received your funeral plan request and one of our consultants will contact you shortly.
+
+Your Estimated Cost: ${data.estimatedCost}
+
+Your Selections:
+- Arrangement: ${data.arrangementType}
+- Planning Type: ${data.planningType}
+- Disposition: ${data.dispositionType}
+- Duration: ${data.wakeDuration}
+- Location: ${data.location}
+- Casket: ${data.coffinChoice}
+
+Our consultant will reach out within 5 minutes. Need help right now? WhatsApp us at +65 9687 5688.
+
+Indian Life Memorial Singapore
+admin@indianlifememorial.com`;
+
   return resend.emails.send({
     from: FROM_EMAIL,
     to: data.email,
+    replyTo: BUSINESS_EMAIL,
     subject: `Your Funeral Plan Estimate — Indian Life Memorial`,
     html,
+    text,
+    headers: {
+      "X-Entity-Ref-ID": `ilm-customer-${Date.now()}`,
+    },
   });
 }
 
@@ -296,10 +320,41 @@ export async function sendBusinessLeadEmail(data: {
 </body>
 </html>`.trim();
 
+  const text = `NEW LEAD RECEIVED — ACTION REQUIRED
+
+Estimated Value: ${data.estimatedCost}
+
+Contact:
+  Name: ${data.name}
+  Email: ${data.email}
+  Phone: ${data.phone}
+  Address: ${data.address}
+
+Planning:
+  Arrangement: ${data.arrangementType}
+  Planning Type: ${data.planningType}
+  Disposition: ${data.dispositionType}
+  Duration: ${data.wakeDuration}
+  Location: ${data.location}
+
+Selections:
+  Casket: ${data.coffinChoice}
+  High-End Interest: ${data.highEndInterest}
+  Tentage: ${data.tentageSelected}
+  Floral Photo Frame: ${data.floralPhotoFrame}
+
+${data.deceasedName ? `Deceased: ${data.deceasedName}${data.deathCertNo ? ` (Cert: ${data.deathCertNo})` : ""}` : ""}
+
+-- Last Rites Lead CRM · Indian Life Memorial Singapore`;
+
   return resend.emails.send({
     from: FROM_EMAIL,
     to: BUSINESS_EMAIL,
-    subject: `✅ New Lead: ${data.name} — ${data.arrangementType} (${data.estimatedCost})`,
+    subject: `New Lead: ${data.name} — ${data.arrangementType} (${data.estimatedCost})`,
     html,
+    text,
+    headers: {
+      "X-Entity-Ref-ID": `ilm-lead-${Date.now()}`,
+    },
   });
 }

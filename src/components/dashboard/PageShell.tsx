@@ -1,7 +1,8 @@
 "use client";
 import { Sidebar } from "@/components/dashboard/Sidebar";
-import { Bell, RefreshCw } from "lucide-react";
+import { Bell, RefreshCw, LogOut } from "lucide-react";
 import { useState, ReactNode } from "react";
+import { useRouter } from "next/navigation";
 
 interface PageShellProps {
   title: string;
@@ -12,6 +13,12 @@ interface PageShellProps {
 
 export function PageShell({ title, subtitle, actions, children }: PageShellProps) {
   const [refreshing, setRefreshing] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/login");
+  };
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -57,8 +64,16 @@ export function PageShell({ title, subtitle, actions, children }: PageShellProps
               <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full" style={{ background: "var(--primary)" }} />
             </button>
             <div className="w-9 h-9 flex items-center justify-center text-xs font-bold text-white" style={{ background: "var(--primary)" }}>
-              RC
+              A
             </div>
+            <button
+              onClick={handleLogout}
+              title="Sign out"
+              className="w-9 h-9 flex items-center justify-center border transition-colors duration-150"
+              style={{ borderColor: "var(--border)", color: "var(--text-muted)", background: "var(--bg-elevated)" }}
+            >
+              <LogOut size={14} />
+            </button>
           </div>
         </header>
 
