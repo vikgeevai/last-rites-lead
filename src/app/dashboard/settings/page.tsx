@@ -21,13 +21,13 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function Field({ label, defaultValue, type = "text", disabled }: {
-  label: string; defaultValue?: string; type?: string; disabled?: boolean;
+function Field({ label, defaultValue, placeholder, type = "text", disabled }: {
+  label: string; defaultValue?: string; placeholder?: string; type?: string; disabled?: boolean;
 }) {
   return (
     <div className="mb-3">
       <label className="text-xs font-semibold block mb-1.5" style={{ color: "var(--text-muted)" }}>{label}</label>
-      <input type={type} defaultValue={defaultValue} disabled={disabled}
+      <input type={type} defaultValue={defaultValue} placeholder={placeholder} disabled={disabled}
         className="w-full px-3 py-2.5 rounded-xl text-sm outline-none transition-colors"
         style={{
           background: disabled ? "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.04)",

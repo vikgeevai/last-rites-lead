@@ -129,7 +129,6 @@ export default function AIPage() {
       headline: `${staleLeads.length} lead${staleLeads.length > 1 ? "s have" : " has"} been in 'New' for 2+ hours`,
       detail: "These are at high risk of going cold. A quick WhatsApp message can re-engage them.",
       metric: `${staleLeads.length} stale`,
-      icon: Clock,
     },
     conversionRate > 0 && {
       type: conversionRate >= 20 ? "positive" as const : "warning" as const,

@@ -103,7 +103,7 @@ export async function GET(req: NextRequest) {
     const thisMonth = thisMonthRows[0]?.count ?? 0;
 
     // Conversion rate: qualified / total
-    const qualifiedRow = byStatus.find((r: { status: string }) => r.status === "qualified");
+    const qualifiedRow = (byStatus as Array<Record<string, any>>).find((r) => r.status === "qualified");
     const qualifiedCount = qualifiedRow?.count ?? 0;
     const conversionRate = total > 0 ? Math.round((qualifiedCount / total) * 100) : 0;
 
