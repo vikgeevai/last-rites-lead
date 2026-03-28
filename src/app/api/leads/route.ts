@@ -19,7 +19,7 @@ function corsHeaders(origin: string | null) {
 
 function validateApiKey(req: NextRequest): boolean {
   const key = req.headers.get("x-api-key");
-  return key === process.env.CRM_API_KEY;
+  return key === process.env.CRM_API_KEY?.trim();
 }
 
 // ── OPTIONS (preflight) ────────────────────────────────────────────────────
