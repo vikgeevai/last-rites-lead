@@ -17,7 +17,9 @@ export function PageShell({ title, subtitle, actions, children }: PageShellProps
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/login");
+    // Hard redirect — forces a fresh browser request so the proxy
+    // re-evaluates the now-cleared session cookie
+    window.location.href = "/login";
   };
 
   const handleRefresh = async () => {
