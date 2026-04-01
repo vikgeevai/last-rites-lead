@@ -108,9 +108,12 @@ export function Sidebar() {
           <Settings size={17} className="flex-shrink-0" />
           {!collapsed && <span>Settings</span>}
         </Link>
-        <Link
-          href="/login"
-          className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-150"
+        <button
+          onClick={async () => {
+            await fetch("/api/auth/logout", { method: "POST" });
+            window.location.href = "/login";
+          }}
+          className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-all duration-150"
           style={{ color: "var(--text-secondary)" }}
           onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.background = "rgba(239,68,68,0.07)"; (e.currentTarget as HTMLElement).style.color = "#fca5a5"; }}
           onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)"; }}
@@ -118,7 +121,7 @@ export function Sidebar() {
         >
           <LogOut size={17} className="flex-shrink-0" />
           {!collapsed && <span>Log out</span>}
-        </Link>
+        </button>
       </div>
 
       {/* Collapse toggle */}
