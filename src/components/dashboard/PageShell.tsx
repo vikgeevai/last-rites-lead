@@ -1,8 +1,7 @@
 "use client";
 import { Sidebar } from "@/components/dashboard/Sidebar";
-import { Bell, RefreshCw, LogOut } from "lucide-react";
+import { Bell, RefreshCw, LogOut, Menu } from "lucide-react";
 import { useState, ReactNode } from "react";
-import { useRouter } from "next/navigation";
 
 interface PageShellProps {
   title: string;
@@ -13,12 +12,10 @@ interface PageShellProps {
 
 export function PageShell({ title, subtitle, actions, children }: PageShellProps) {
   const [refreshing, setRefreshing] = useState(false);
-  const router = useRouter();
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
-    // Hard redirect — forces a fresh browser request so the proxy
-    // re-evaluates the now-cleared session cookie
     window.location.href = "/login";
   };
 
@@ -31,24 +28,38 @@ export function PageShell({ title, subtitle, actions, children }: PageShellProps
 
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: "var(--bg-base)" }}>
-      <Sidebar />
+      <Sidebar mobileOpen={mobileNavOpen} onMobileClose={() => setMobileNavOpen(false)} />
+
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top bar */}
         <header
-          className="h-16 flex items-center justify-between px-6 border-b flex-shrink-0"
+          className="h-14 lg:h-16 flex items-center justify-between px-4 lg:px-6 border-b flex-shrink-0"
           style={{ background: "var(--bg-surface)", borderColor: "var(--border)" }}
         >
-          <div>
-            <h1 className="text-base font-bold font-display" style={{ letterSpacing: "-0.01em" }}>
-              {title}
-            </h1>
-            {subtitle && (
-              <p className="text-xs font-mono-data" style={{ color: "var(--text-muted)" }}>
-                {subtitle}
-              </p>
-            )}
+          <div className="flex items-center gap-3 min-w-0">
+            {/* Hamburger — mobile only */}
+            <button
+              onClick={() => setMobileNavOpen(true)}
+              className="lg:hidden w-9 h-9 flex items-center justify-center border transition-colors duration-150 flex-shrink-0"
+              style={{ borderColor: "var(--border)", color: "var(--text-muted)", background: "var(--bg-elevated)" }}
+              aria-label="Open menu"
+            >
+              <Menu size={16} />
+            </button>
+
+            <div className="min-w-0">
+              <h1 className="text-sm lg:text-base font-bold font-display truncate" style={{ letterSpacing: "-0.01em" }}>
+                {title}
+              </h1>
+              {subtitle && (
+                <p className="hidden sm:block text-xs font-mono-data truncate" style={{ color: "var(--text-muted)" }}>
+                  {subtitle}
+                </p>
+              )}
+            </div>
           </div>
-          <div className="flex items-center gap-2">
+
+          <div className="flex items-center gap-2 flex-shrink-0">
             {actions}
             <button
               onClick={handleRefresh}
@@ -61,6 +72,7 @@ export function PageShell({ title, subtitle, actions, children }: PageShellProps
             <button
               className="relative w-9 h-9 flex items-center justify-center border transition-colors duration-150"
               style={{ borderColor: "var(--border)", color: "var(--text-muted)", background: "var(--bg-elevated)" }}
+              aria-label="Notifications"
             >
               <Bell size={14} />
               <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full" style={{ background: "var(--primary)" }} />
@@ -71,7 +83,7 @@ export function PageShell({ title, subtitle, actions, children }: PageShellProps
             <button
               onClick={handleLogout}
               title="Sign out"
-              className="w-9 h-9 flex items-center justify-center border transition-colors duration-150"
+              className="hidden sm:flex w-9 h-9 items-center justify-center border transition-colors duration-150"
               style={{ borderColor: "var(--border)", color: "var(--text-muted)", background: "var(--bg-elevated)" }}
             >
               <LogOut size={14} />
@@ -80,7 +92,7 @@ export function PageShell({ title, subtitle, actions, children }: PageShellProps
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-y-auto p-6" style={{ background: "var(--bg-base)" }}>
+        <main className="flex-1 overflow-y-auto p-4 lg:p-6" style={{ background: "var(--bg-base)" }}>
           {children}
         </main>
       </div>

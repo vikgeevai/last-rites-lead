@@ -147,11 +147,11 @@ export default function LeadsPage() {
         </div>
 
         {/* Search */}
-        <div className="relative ml-auto">
+        <div className="relative w-full sm:w-auto sm:ml-auto">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: "var(--text-muted)" }} />
           <input type="text" value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Search name, phone, service…"
-            className="pl-9 pr-4 py-2 rounded-xl text-sm outline-none w-64 transition-colors"
+            className="pl-9 pr-4 py-2 rounded-xl text-sm outline-none w-full sm:w-64 transition-colors"
             style={{ background: "rgba(255,255,255,0.04)", border: "1px solid var(--glass-border)", color: "var(--text-primary)" }}
             onFocus={e => (e.currentTarget.style.borderColor = "var(--primary)")}
             onBlur={e => (e.currentTarget.style.borderColor = "var(--glass-border)")}
@@ -160,12 +160,12 @@ export default function LeadsPage() {
       </div>
 
       {/* Table + Drawer */}
-      <div className="flex gap-4 h-[calc(100vh-220px)]">
+      <div className="flex gap-4 h-[calc(100vh-260px)] sm:h-[calc(100vh-220px)]">
         {/* Table */}
-        <div className="flex-1 rounded-2xl border overflow-hidden flex flex-col"
+        <div className="flex-1 rounded-2xl border overflow-hidden flex flex-col min-w-0"
           style={{ background: "var(--bg-elevated)", borderColor: "var(--glass-border)" }}>
-          <div className="overflow-y-auto flex-1">
-            <table className="w-full min-w-[700px]">
+          <div className="overflow-auto flex-1">
+            <table className="w-full min-w-[600px]">
               <thead className="sticky top-0 z-10" style={{ background: "var(--bg-elevated)" }}>
                 <tr style={{ borderBottom: "1px solid var(--border)" }}>
                   {["Date", "Contact", "Service", "Est. Cost", "Status", "Action"].map(h => (
@@ -248,7 +248,7 @@ export default function LeadsPage() {
           </div>
         </div>
 
-        {/* Lead detail drawer */}
+        {/* Lead detail drawer — fullscreen overlay on mobile, side panel on desktop */}
         <AnimatePresence>
           {selectedLead && (
             <motion.div
@@ -256,7 +256,7 @@ export default function LeadsPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 24 }}
               transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-              className="w-80 flex-shrink-0 rounded-2xl border overflow-y-auto flex flex-col"
+              className="fixed inset-0 z-50 overflow-y-auto flex flex-col md:relative md:inset-auto md:z-auto md:w-80 md:flex-shrink-0 md:rounded-2xl md:border"
               style={{ background: "var(--bg-elevated)", borderColor: "var(--glass-border)" }}
             >
               {/* Drawer header */}
