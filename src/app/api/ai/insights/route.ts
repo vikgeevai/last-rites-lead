@@ -1,0 +1,62 @@
+import { NextRequest, NextResponse } from "next/server";
+import Anthropic from "@anthropic-ai/sdk";
+
+function validateApiKey(req: NextRequest): boolean {
+  const key = req.headers.get("x-api-key");
+  return key === process.env.CRM_API_KEY?.trim();
+}
+
+export async function POST(req: NextRequest) {
+  if (!validateApiKey(req)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const anthropicKey = process.env.ANTHROPIC_API_KEY;
+  if (!anthropicKey) {
+    return NextResponse.json({ error: "AI_KEY_MISSING" }, { status: 503 });
+  }
+
+  const { stats } = await req.json();
+  if (!stats) {
+    return NextResponse.json({ error: "stats payload required" }, { status: 400 });
+  }
+
+  const client = new Anthropic({ apiKey: anthropicKey });
+
+  const message = await client.messages.create({
+    model: "claude-sonnet-4-6",
+    max_tokens: 900,
+    system: `You are a CRM performance analyst for Indian Life Memorial, a Singapore-based Hindu and Indian funeral and memorial services company. Your role is to analyse lead pipeline data and surface 4–6 concise, highly actionable business insights tailored to the funeral industry.
+
+Return ONLY a valid JSON array — no prose, no markdown, no explanation. Each element must have exactly these fields:
+- "type": one of "critical", "warning", "positive", or "info"
+- "headline": max 12 words, specific and data-driven
+- "detail": 1–2 sentences with a concrete action the team can take today
+- "metric": a short label like "6 urgent leads", "$12,400 pipeline", or "28% conversion"
+
+Focus on: response urgency (families in distress need sub-5min replies), revenue pipeline health, service demand mix (Full Service Burial vs Direct Cremation vs Repatriation), lead source ROI, and conversion rate trends. Use the funeral context — empathy, speed, and trust are the conversion drivers.`,
+    messages: [
+      {
+        role: "user",
+        content: `Analyse this CRM snapshot and return 4–6 insights as a JSON array:\n\n${JSON.stringify(stats, null, 2)}`,
+      },
+    ],
+  });
+
+  const text = message.content[0].type === "text" ? message.content[0].text : "";
+
+  // Extract JSON array from response
+  const match = text.match(/\[[\s\S]*\]/);
+  if (!match) {
+    return NextResponse.json({ error: "Unexpected AI response format" }, { status: 500 });
+  }
+
+  let insights;
+  try {
+    insights = JSON.parse(match[0]);
+  } catch {
+    return NextResponse.json({ error: "Failed to parse AI response" }, { status: 500 });
+  }
+
+  return NextResponse.json({ insights, generatedAt: new Date().toISOString() });
+}

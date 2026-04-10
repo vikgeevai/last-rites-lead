@@ -4,7 +4,7 @@ import { PageShell } from "@/components/dashboard/PageShell";
 import { motion } from "framer-motion";
 import {
   Zap, TrendingUp, AlertTriangle, Clock, MessageCircle,
-  Star, ArrowRight, Brain, Target, BarChart3,
+  Star, ArrowRight, Brain, Target, BarChart3, Sparkles, RefreshCw,
 } from "lucide-react";
 
 const CRM_URL = process.env.NEXT_PUBLIC_CRM_URL ?? "";
@@ -50,10 +50,21 @@ function scoreCard(value: number, label: string, color: string) {
   );
 }
 
+interface ClaudeInsight {
+  type: "critical" | "warning" | "positive" | "info";
+  headline: string;
+  detail: string;
+  metric?: string;
+}
+
 export default function AIPage() {
   const [stats, setStats] = useState<any>(null);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [claudeInsights, setClaudeInsights] = useState<ClaudeInsight[] | null>(null);
+  const [claudeError, setClaudeError] = useState<string | null>(null);
+  const [generatedAt, setGeneratedAt] = useState<string | null>(null);
 
   useEffect(() => {
     Promise.all([
@@ -65,6 +76,32 @@ export default function AIPage() {
       setLoading(false);
     }).catch(() => setLoading(false));
   }, []);
+
+  const handleGenerateAI = async () => {
+    if (!stats) return;
+    setGenerating(true);
+    setClaudeError(null);
+    try {
+      const res = await fetch(`${CRM_URL}/api/ai/insights`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-api-key": API_KEY },
+        body: JSON.stringify({ stats }),
+      });
+      if (res.status === 503) {
+        setClaudeError("ANTHROPIC_API_KEY not configured — add it in Vercel environment variables.");
+      } else if (!res.ok) {
+        setClaudeError("Failed to generate AI analysis. Please try again.");
+      } else {
+        const data = await res.json();
+        setClaudeInsights(data.insights);
+        setGeneratedAt(data.generatedAt);
+      }
+    } catch {
+      setClaudeError("Network error — please check your connection and try again.");
+    } finally {
+      setGenerating(false);
+    }
+  };
 
   if (loading) return (
     <PageShell title="AI Insights" subtitle="Powered by your data">
@@ -269,6 +306,97 @@ export default function AIPage() {
             </div>
           )}
         </div>
+      </div>
+      {/* Claude AI Analysis */}
+      <div className="mt-6 rounded-2xl border p-5" style={{ background: "var(--bg-elevated)", borderColor: "var(--glass-border)" }}>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+              style={{ background: "rgba(139,92,246,0.15)", border: "1px solid rgba(139,92,246,0.3)" }}>
+              <Sparkles size={15} style={{ color: "#a78bfa" }} />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold" style={{ color: "var(--text-secondary)" }}>Claude AI Analysis</h3>
+              {generatedAt && (
+                <p className="text-xs font-mono-data" style={{ color: "var(--text-muted)" }}>
+                  Generated {new Date(generatedAt).toLocaleTimeString("en-SG", { hour: "2-digit", minute: "2-digit" })}
+                </p>
+              )}
+            </div>
+          </div>
+          <motion.button
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            onClick={handleGenerateAI}
+            disabled={generating || loading}
+            className="flex items-center gap-2 px-4 py-2 text-xs font-bold text-white disabled:opacity-50"
+            style={{ background: "linear-gradient(135deg, #7c3aed, #4f46e5)", borderRadius: "8px" }}
+          >
+            {generating
+              ? <><RefreshCw size={12} className="animate-spin" /> Analysing…</>
+              : <><Brain size={12} /> Generate AI Analysis</>
+            }
+          </motion.button>
+        </div>
+
+        {/* States */}
+        {!claudeInsights && !generating && !claudeError && (
+          <div className="py-10 flex flex-col items-center gap-2" style={{ color: "var(--text-muted)" }}>
+            <Brain size={28} style={{ opacity: 0.25 }} />
+            <p className="text-sm">Click "Generate AI Analysis" to get Claude's assessment of your pipeline.</p>
+          </div>
+        )}
+
+        {generating && (
+          <div className="space-y-2 mt-2">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="h-16 rounded-xl animate-pulse" style={{ background: "rgba(139,92,246,0.06)" }} />
+            ))}
+          </div>
+        )}
+
+        {claudeError && (
+          <div className="py-6 px-4 rounded-xl text-sm text-center" style={{ background: "rgba(239,68,68,0.07)", border: "1px solid rgba(239,68,68,0.2)", color: "#fca5a5" }}>
+            {claudeError}
+          </div>
+        )}
+
+        {claudeInsights && !generating && (
+          <div className="space-y-3">
+            {claudeInsights.map((ins, i) => {
+              const { color, bg, border } = TYPE_CONFIG[ins.type];
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.06 }}
+                  className="p-4 rounded-xl"
+                  style={{ background: bg, border: `1px solid ${border}` }}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                      style={{ background: `${color}20` }}>
+                      <Sparkles size={13} style={{ color }} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2 mb-1">
+                        <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>{ins.headline}</p>
+                        {ins.metric && (
+                          <span className="text-xs font-mono-data px-2 py-0.5 rounded-full flex-shrink-0"
+                            style={{ background: `${color}20`, color }}>
+                            {ins.metric}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>{ins.detail}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </PageShell>
   );

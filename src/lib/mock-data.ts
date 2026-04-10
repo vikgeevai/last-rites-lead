@@ -75,25 +75,3 @@ export const KPI_METRICS = {
   responseDelta:    "-2m",
 };
 
-export const AI_INSIGHTS = [
-  {
-    type: "positive" as const,
-    headline: "Peak hours identified: 9–11 AM captures 42% of all leads",
-    detail: "Consider running paid ads exclusively during this window to maximise ROI.",
-  },
-  {
-    type: "warning" as const,
-    headline: "18 leads have been in 'New' status for more than 48 hours",
-    detail: "Fast follow-up (under 5 min) increases conversion by 9×. Enable auto-reply to close this gap.",
-  },
-  {
-    type: "positive" as const,
-    headline: "Referral leads convert at 61% — highest of all sources",
-    detail: "Launch a referral incentive program to scale this channel beyond 12.4% share.",
-  },
-  {
-    type: "info" as const,
-    headline: "Deep Tissue Massage accounts for 34% of all enquiries",
-    detail: "Promote this as your anchor service in ad creatives and landing page hero.",
-  },
-];
