@@ -230,19 +230,19 @@ function Hero() {
           <motion.div variants={fadeUp}
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-300 text-xs font-medium mb-7"
             style={{ fontFamily:SANS }}>
-            <Sparkles size={11} /> Built for Singapore Indian funeral businesses
+            <Sparkles size={11} /> Made for Indian Life Memorial
           </motion.div>
           <motion.h1 variants={fadeUp}
             className="text-5xl md:text-6xl font-bold text-white leading-tight mb-5"
             style={{ fontFamily:SANS, letterSpacing:"-0.025em", lineHeight:1.1 }}>
-            Families decide<br />
-            in hours.<br />
+            Every family<br />
+            deserves a<br />
             <span style={{ backgroundImage:"linear-gradient(135deg,#60a5fa,#38bdf8)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>
-              Be first.
+              caring response.
             </span>
           </motion.h1>
           <motion.p variants={fadeUp} className="text-base text-white/55 leading-relaxed mb-8 max-w-md" style={{ fontFamily:SANS }}>
-            When a family searches for a funeral home in Singapore, they contact 2–3 businesses and go with whoever responds first. Last Rites Lead makes sure that's <strong className="text-white/80 font-medium">always you</strong>.
+            When a family reaches out, they need help quickly. This dashboard keeps all your enquiries in one place so you can respond with care — and make sure no one is left waiting.
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 mb-10">
             <Link href="/login"
@@ -873,7 +873,6 @@ export default function LandingPage() {
     <div style={{ fontFamily:SANS }}>
       <Nav />
       <Hero />
-      <TrustBar />
       <FeaturesSection />
       <DashboardSection />
       <HowItWorks />
