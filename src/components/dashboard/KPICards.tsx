@@ -82,7 +82,7 @@ export function KPICards() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: i * 0.08, ease: [0.4, 0, 0.2, 1] }}
-          className="p-5 border transition-all duration-300 cursor-default group"
+          className="p-4 lg:p-5 border transition-all duration-300 cursor-default group"
           style={{
             background: "var(--bg-elevated)",
             borderColor: "var(--glass-border)",
@@ -110,7 +110,7 @@ export function KPICards() {
           </div>
 
           <div
-            className="text-3xl font-bold font-display mb-1"
+            className="text-2xl lg:text-3xl font-bold font-display mb-1"
             style={{ color: "var(--text-primary)" }}
           >
             <AnimatedNumber to={value} suffix={suffix} />

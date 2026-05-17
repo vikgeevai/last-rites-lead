@@ -232,8 +232,79 @@ export function LeadsTable() {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
+      {/* Mobile card list */}
+      <div className="md:hidden divide-y" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+        {loading ? (
+          <div className="py-12 flex flex-col items-center gap-3" style={{ color: "var(--text-muted)" }}>
+            <RefreshCw size={24} className="animate-spin" style={{ opacity: 0.4 }} />
+            <p className="text-sm">Loading leads…</p>
+          </div>
+        ) : error ? (
+          <div className="py-12 flex flex-col items-center gap-3">
+            <p className="text-sm text-red-400">{error}</p>
+            <button className="text-xs underline" style={{ color: "var(--primary-light)" }} onClick={fetchLeads}>Retry</button>
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="py-12 flex flex-col items-center gap-3" style={{ color: "var(--text-muted)" }}>
+            <Search size={28} style={{ opacity: 0.3 }} />
+            <p className="text-sm">No leads match your filters</p>
+            <button className="text-xs underline" style={{ color: "var(--primary-light)" }} onClick={() => { setSearch(""); setFilterStatus("all"); }}>Clear filters</button>
+          </div>
+        ) : (
+          filtered.map((lead) => (
+            <div
+              key={lead.id}
+              className="px-4 py-4 flex items-start gap-3"
+              style={{ borderBottomColor: "rgba(255,255,255,0.05)" }}
+            >
+              {/* Avatar */}
+              <div
+                className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0 mt-0.5"
+                style={{ background: "var(--gradient)" }}
+              >
+                {lead.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+              </div>
+
+              {/* Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <div className="min-w-0">
+                    <div className="text-sm font-semibold truncate">{lead.name}</div>
+                    <div className="text-xs truncate" style={{ color: "var(--text-muted)" }}>{lead.email}</div>
+                  </div>
+                  <StatusMenu current={lead.status} onChange={(s) => updateStatus(lead.id, s)} />
+                </div>
+                <div className="flex flex-wrap items-center gap-2 mt-2">
+                  <span
+                    className="text-xs px-2 py-0.5 rounded-md"
+                    style={{ background: "rgba(255,255,255,0.06)", color: "var(--text-secondary)" }}
+                  >
+                    {lead.service}
+                  </span>
+                  <span
+                    className="text-xs px-2 py-0.5 rounded-md"
+                    style={{ background: "rgba(255,255,255,0.04)", color: "var(--text-muted)" }}
+                  >
+                    {lead.source}
+                  </span>
+                  {lead.responseTime && (
+                    <span className="flex items-center gap-1 text-xs" style={{ color: "var(--text-muted)" }}>
+                      <Clock size={10} />
+                      {lead.responseTime}
+                    </span>
+                  )}
+                  <span className="text-xs ml-auto" style={{ color: "var(--text-muted)" }}>
+                    {new Date(lead.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Desktop Table */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full min-w-[800px]">
           <thead>
             <tr style={{ borderBottom: "1px solid var(--border)", background: "rgba(255,255,255,0.02)" }}>
@@ -399,6 +470,7 @@ export function LeadsTable() {
           </tbody>
         </table>
       </div>
+      {/* end hidden md:block */}
 
       {/* Footer */}
       {filtered.length > 0 && (

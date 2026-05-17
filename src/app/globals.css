@@ -122,6 +122,14 @@
 
 /* ── Utility classes ── */
 @layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
   .glass {
     background: var(--glass-bg);
     backdrop-filter: var(--glass-blur);
