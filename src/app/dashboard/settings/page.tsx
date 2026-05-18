@@ -114,18 +114,18 @@ export default function SettingsPage() {
             <Section title="Personal Information">
               <div className="flex items-center gap-4 mb-5">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center text-lg font-bold text-white"
-                  style={{ background: "var(--primary)" }}>RC</div>
+                  style={{ background: "var(--primary)" }}>AD</div>
                 <div>
-                  <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Viknesh Geevan</p>
+                  <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>Admin User</p>
                   <p className="text-xs" style={{ color: "var(--text-muted)" }}>Administrator</p>
                 </div>
               </div>
               <div className="grid sm:grid-cols-2 gap-0">
-                <Field label="First Name" defaultValue="Viknesh" />
-                <Field label="Last Name" defaultValue="Geevan" />
+                <Field label="First Name" placeholder="First name" />
+                <Field label="Last Name" placeholder="Last name" />
               </div>
-              <Field label="Email Address" defaultValue="admin@indianlifememorial.com" type="email" />
-              <Field label="Phone" defaultValue="+65 9687 5688" />
+              <Field label="Email Address" placeholder="you@yourbusiness.com" type="email" />
+              <Field label="Phone" placeholder="+1 555 000 0000" />
             </Section>
             <div className="flex justify-end"><SaveButton /></div>
           </>
@@ -135,11 +135,11 @@ export default function SettingsPage() {
         {activeTab === "Business" && (
           <>
             <Section title="Business Details">
-              <Field label="Business Name" defaultValue="Indian Life Memorial Singapore" />
-              <Field label="Business Email" defaultValue="admin@indianlifememorial.com" type="email" />
-              <Field label="Phone" defaultValue="+65 9687 5688" />
-              <Field label="Website" defaultValue="https://indian-life-memorial.vercel.app" />
-              <Field label="Address" defaultValue="Singapore" />
+              <Field label="Business Name" placeholder="Your Business Name" />
+              <Field label="Business Email" placeholder="you@yourbusiness.com" type="email" />
+              <Field label="Phone" placeholder="+1 555 000 0000" />
+              <Field label="Website" placeholder="https://yourbusiness.com" />
+              <Field label="Address" placeholder="City, Country" />
             </Section>
             <Section title="Response SLA">
               <p className="text-xs mb-3" style={{ color: "var(--text-muted)" }}>
@@ -160,14 +160,14 @@ export default function SettingsPage() {
         {activeTab === "Notifications" && (
           <>
             <Section title="Email Notifications">
-              <Toggle label="New lead received" description="Email to admin@indianlifememorial.com when a new lead comes in" defaultChecked />
+              <Toggle label="New lead received" description="Email notification when a new lead comes in" defaultChecked />
               <Toggle label="Urgent lead alert" description="Alert when a lead has been waiting over 30 minutes" defaultChecked />
               <Toggle label="Daily summary" description="Morning digest of yesterday's leads and metrics" />
               <Toggle label="Weekly report" description="Monday morning performance summary" />
             </Section>
             <Section title="Delivery">
-              <Field label="Notification email" defaultValue="admin@indianlifememorial.com" type="email" />
-              <Field label="WhatsApp alerts (optional)" placeholder="+65 XXXX XXXX" />
+              <Field label="Notification email" placeholder="your@email.com" type="email" />
+              <Field label="WhatsApp alerts (optional)" placeholder="+1 555 000 0000" />
             </Section>
             <div className="flex justify-end"><SaveButton /></div>
           </>
@@ -178,7 +178,7 @@ export default function SettingsPage() {
           <>
             <Section title="API Key">
               <p className="text-xs mb-3 leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                This key authenticates requests from your memorial site to this CRM. Keep it secret — never share it publicly.
+                This key authenticates requests from your website or app to Signal96. Keep it secret — never share it publicly.
               </p>
               <div className="flex items-center gap-2">
                 <div className="flex-1 px-3 py-2.5 rounded-xl text-xs font-mono overflow-hidden"
@@ -203,11 +203,11 @@ export default function SettingsPage() {
             </Section>
 
             <Section title="CRM Endpoint">
-              <p className="text-xs mb-3" style={{ color: "var(--text-muted)" }}>Use this URL in your memorial site to send leads.</p>
+              <p className="text-xs mb-3" style={{ color: "var(--text-muted)" }}>Use this URL in your website or app to send leads to Signal96.</p>
               <div className="flex items-center gap-2">
                 <div className="flex-1 px-3 py-2.5 rounded-xl text-xs font-mono"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--glass-border)", color: "var(--primary-light)" }}>
-                  {CRM_URL || "https://last-rites-lead.vercel.app"}/api/leads
+                  {CRM_URL || "https://signal96.vercel.app"}/api/leads
                 </div>
               </div>
             </Section>
@@ -216,7 +216,7 @@ export default function SettingsPage() {
               <div className="space-y-3">
                 {[
                   { icon: Shield, label: "API key authentication", desc: "All requests require x-api-key header", ok: true },
-                  { icon: Shield, label: "CORS restriction", desc: "Only your memorial site can call the API", ok: true },
+                  { icon: Shield, label: "CORS restriction", desc: "Only your configured domains can call the API", ok: true },
                   { icon: Shield, label: "HTTPS only", desc: "All traffic encrypted via TLS", ok: true },
                   { icon: Key, label: "Database encryption", desc: "Neon Postgres encrypts data at rest", ok: true },
                 ].map(({ icon: Icon, label, desc, ok }) => (

@@ -3,7 +3,7 @@ import sql, { initDb } from "@/lib/db";
 import { sendCustomerEmail, sendBusinessLeadEmail } from "@/lib/email";
 
 const ALLOWED_ORIGINS = [
-  "https://indian-life-memorial.vercel.app",
+  "https://signal96.vercel.app",
   "http://localhost:5173",
   "http://localhost:3000",
 ];
@@ -94,28 +94,27 @@ export async function POST(req: NextRequest) {
 
     // Send emails (non-blocking — don't let email failure block lead storage)
     if (process.env.RESEND_API_KEY) {
-      const emailData = {
-        name, email: email ?? "",
-        arrangementType: arrangement_type ?? "",
-        planningType: planning_type ?? "",
-        dispositionType: disposition_type ?? "",
-        wakeDuration: wake_duration ?? "",
-        location: location ?? "",
-        coffinChoice: coffin_choice ?? "",
-        estimatedCost: estimated_cost ?? "",
-        coffinImageUrl: selected_coffin_image,
-      };
+      const planDetails = [planning_type, arrangement_type, disposition_type, wake_duration]
+        .filter(Boolean).join(" · ") || undefined;
 
       await Promise.allSettled([
-        email ? sendCustomerEmail(emailData) : Promise.resolve(),
+        email ? sendCustomerEmail({
+          name, email: email ?? "",
+          service,
+          planDetails,
+          location: location ?? undefined,
+          estimatedCost: estimated_cost ?? "",
+          productImageUrl: selected_coffin_image,
+        }) : Promise.resolve(),
         sendBusinessLeadEmail({
-          ...emailData,
-          phone, address: address ?? "",
-          highEndInterest: high_end_interest ?? "No",
-          tentageSelected: tentage_selected ?? "No",
-          floralPhotoFrame: floral_photo_frame ?? "No",
-          deceasedName: deceased_name,
-          deathCertNo: death_cert_no,
+          name, email: email ?? "", phone,
+          address: address ?? undefined,
+          service,
+          planDetails,
+          location: location ?? undefined,
+          notes: notes || undefined,
+          estimatedCost: estimated_cost ?? "",
+          productImageUrl: selected_coffin_image,
         }),
       ]);
     }

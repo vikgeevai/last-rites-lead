@@ -18,7 +18,7 @@ function Logo() {
         className="font-bold text-2xl tracking-tight"
         style={{ fontFamily: "'Playfair Display', serif" }}
       >
-        Last Rites <span style={{ color: "var(--accent-light)" }}>Lead</span>
+        Signal<span style={{ color: "var(--accent-light)" }}>96</span>
       </span>
     </div>
   );

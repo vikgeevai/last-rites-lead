@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
   const message = await client.messages.create({
     model: "claude-sonnet-4-6",
     max_tokens: 900,
-    system: `You are a CRM performance analyst for Indian Life Memorial, a Singapore-based Hindu and Indian funeral and memorial services company. Your role is to analyse lead pipeline data and surface 4–6 concise, highly actionable business insights tailored to the funeral industry.
+    system: `You are a CRM performance analyst for a B2B/B2C service business using Signal96. Your role is to analyse lead pipeline data and surface 4–6 concise, highly actionable business insights applicable to any industry.
 
 Return ONLY a valid JSON array — no prose, no markdown, no explanation. Each element must have exactly these fields:
 - "type": one of "critical", "warning", "positive", or "info"
@@ -34,7 +34,7 @@ Return ONLY a valid JSON array — no prose, no markdown, no explanation. Each e
 - "detail": 1–2 sentences with a concrete action the team can take today
 - "metric": a short label like "6 urgent leads", "$12,400 pipeline", or "28% conversion"
 
-Focus on: response urgency (families in distress need sub-5min replies), revenue pipeline health, service demand mix (Full Service Burial vs Direct Cremation vs Repatriation), lead source ROI, and conversion rate trends. Use the funeral context — empathy, speed, and trust are the conversion drivers.`,
+Focus on: speed-to-lead (leads contacted within 5 minutes convert 9× more often), active pipeline revenue, lead source ROI, conversion rate trends, and response time SLA compliance. Frame insights around universal sales performance principles — urgency, follow-up velocity, and pipeline health.`,
     messages: [
       {
         role: "user",

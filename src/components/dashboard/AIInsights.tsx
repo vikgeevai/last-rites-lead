@@ -48,13 +48,13 @@ export function AIInsights() {
       const computed: Insight[] = [
         urgentLeads.length > 0 && {
           type: "critical" as const,
-          headline: `${urgentLeads.length} lead${urgentLeads.length > 1 ? "s" : ""} waiting over 30 min — families cannot wait`,
-          detail: "Funeral enquiries contacted within 5 minutes convert 9× more often. These families are in distress — act immediately.",
+          headline: `${urgentLeads.length} lead${urgentLeads.length > 1 ? "s" : ""} waiting over 30 min — act now`,
+          detail: "Leads contacted within 5 minutes convert 9× more often. Reach out before prospects move to a competitor.",
         },
         staleLeads.length > 0 && {
           type: "warning" as const,
           headline: `${staleLeads.length} lead${staleLeads.length > 1 ? "s" : ""} stale for 2+ hours — high dropout risk`,
-          detail: "A timely WhatsApp message can re-engage these families before they contact another provider.",
+          detail: "A timely WhatsApp or email can re-engage these prospects before they commit to a competitor.",
         },
         pipeline > 0 && {
           type: "positive" as const,
@@ -71,7 +71,7 @@ export function AIInsights() {
         topService && {
           type: "info" as const,
           headline: `"${topService.service}" drives the most enquiries — ${topService.count} requests`,
-          detail: "Feature this service prominently in ad creatives and your website hero to attract more high-intent families.",
+          detail: "Feature this service prominently in ad creatives and your website hero to attract more high-intent prospects.",
         },
         topSource && {
           type: "info" as const,

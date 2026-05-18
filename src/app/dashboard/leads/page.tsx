@@ -118,7 +118,7 @@ export default function LeadsPage() {
     s === "all" ? leads.length : leads.filter(l => l.status === s).length;
 
   const waLink = (phone: string, name: string) =>
-    `https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${name}, this is Indian Life Memorial. We received your enquiry and would like to assist you.`)}`;
+    `https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${name}, thanks for your enquiry. We would love to help — are you available for a quick call?`)}`;
 
   return (
     <PageShell title="Leads Pipeline" subtitle={`${leads.length} total leads`}>
@@ -318,27 +318,17 @@ export default function LeadsPage() {
                 <DetailRow icon={Mail} label="Email" value={selectedLead.email} />
                 <DetailRow icon={MapPin} label="Address" value={selectedLead.address} />
 
-                <p className="text-xs font-semibold uppercase tracking-wider mt-4 mb-1" style={{ color: "var(--text-muted)" }}>Funeral Plan</p>
-                <DetailRow icon={Tag} label="Arrangement" value={selectedLead.arrangement_type} />
-                <DetailRow icon={Tag} label="Planning Type" value={selectedLead.planning_type} />
-                <DetailRow icon={Tag} label="Disposition" value={selectedLead.disposition_type} />
-                <DetailRow icon={Clock} label="Duration" value={selectedLead.wake_duration} />
+                <p className="text-xs font-semibold uppercase tracking-wider mt-4 mb-1" style={{ color: "var(--text-muted)" }}>Service Details</p>
+                <DetailRow icon={Tag} label="Service" value={selectedLead.service} />
+                <DetailRow icon={Tag} label="Details" value={selectedLead.planning_type ?? selectedLead.arrangement_type} />
                 <DetailRow icon={Home} label="Location" value={selectedLead.location} />
-                <DetailRow icon={Tag} label="Casket" value={selectedLead.coffin_choice} />
+                <DetailRow icon={Tag} label="Notes" value={selectedLead.notes} />
 
                 {selectedLead.estimated_cost && (
                   <div className="mt-4 p-3 rounded-xl text-center" style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.2)" }}>
                     <p className="text-xs mb-1" style={{ color: "var(--text-muted)" }}>Estimated Value</p>
                     <p className="text-xl font-bold" style={{ color: "#60a5fa" }}>{selectedLead.estimated_cost}</p>
                   </div>
-                )}
-
-                {selectedLead.deceased_name && (
-                  <>
-                    <p className="text-xs font-semibold uppercase tracking-wider mt-4 mb-1" style={{ color: "var(--text-muted)" }}>Deceased</p>
-                    <DetailRow icon={Tag} label="Name" value={selectedLead.deceased_name} />
-                    <DetailRow icon={Tag} label="Death Cert No." value={selectedLead.death_cert_no} />
-                  </>
                 )}
 
                 <div className="mt-4 pb-2">

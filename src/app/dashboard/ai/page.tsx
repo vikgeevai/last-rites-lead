@@ -271,7 +271,7 @@ export default function AIPage() {
           ) : (
             <div className="space-y-3">
               {scoredLeads.map(lead => {
-                const waUrl = `https://wa.me/${lead.phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${lead.name}, this is Indian Life Memorial. We received your enquiry and would like to assist you.`)}`;
+                const waUrl = `https://wa.me/${lead.phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${lead.name}, thanks for your enquiry. We would love to help — are you available for a quick call?`)}`;
                 const scoreColor = lead.score >= 70 ? "#10b981" : lead.score >= 40 ? "#f59e0b" : "#3b82f6";
                 return (
                   <div key={lead.id} className="p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }}>

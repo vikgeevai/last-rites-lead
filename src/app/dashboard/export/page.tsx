@@ -8,26 +8,17 @@ const CRM_URL = process.env.NEXT_PUBLIC_CRM_URL ?? "";
 const API_KEY = process.env.NEXT_PUBLIC_CRM_API_KEY ?? "";
 
 const ALL_FIELDS = [
-  { key: "name",              label: "Name" },
-  { key: "email",             label: "Email" },
-  { key: "phone",             label: "Phone" },
-  { key: "address",           label: "Address" },
-  { key: "service",           label: "Service" },
-  { key: "source",            label: "Source" },
-  { key: "status",            label: "Status" },
-  { key: "arrangement_type",  label: "Arrangement Type" },
-  { key: "planning_type",     label: "Planning Type" },
-  { key: "disposition_type",  label: "Disposition" },
-  { key: "wake_duration",     label: "Wake Duration" },
-  { key: "location",          label: "Location" },
-  { key: "coffin_choice",     label: "Casket Choice" },
-  { key: "high_end_interest", label: "High-End Interest" },
-  { key: "tentage_selected",  label: "Tentage" },
-  { key: "floral_photo_frame",label: "Floral Photo Frame" },
-  { key: "estimated_cost",    label: "Estimated Cost" },
-  { key: "deceased_name",     label: "Deceased Name" },
-  { key: "death_cert_no",     label: "Death Cert No." },
-  { key: "created_at",        label: "Submitted At" },
+  { key: "name",           label: "Name" },
+  { key: "email",          label: "Email" },
+  { key: "phone",          label: "Phone" },
+  { key: "address",        label: "Address" },
+  { key: "service",        label: "Service / Product Interest" },
+  { key: "source",         label: "Lead Source" },
+  { key: "status",         label: "Status" },
+  { key: "estimated_cost", label: "Estimated Value" },
+  { key: "location",       label: "Location" },
+  { key: "notes",          label: "Notes" },
+  { key: "created_at",     label: "Submitted At" },
 ];
 
 function toCSV(leads: any[], fields: string[]): string {
@@ -44,7 +35,7 @@ function toCSV(leads: any[], fields: string[]): string {
 
 export default function ExportPage() {
   const [selectedFields, setSelectedFields] = useState<string[]>(
-    ["name", "phone", "email", "service", "status", "estimated_cost", "created_at"]
+    ["name", "phone", "email", "service", "source", "status", "estimated_cost", "created_at"]
   );
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [dateFrom, setDateFrom] = useState("");
@@ -81,7 +72,7 @@ export default function ExportPage() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `last-rites-leads-${new Date().toISOString().split("T")[0]}.csv`;
+      a.download = `signal96-leads-${new Date().toISOString().split("T")[0]}.csv`;
       a.click();
       URL.revokeObjectURL(url);
       setExported(true);

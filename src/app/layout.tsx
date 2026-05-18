@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Last Rites Lead — Every Lead Has a Deadline.",
+  title: "Signal96 — Every Lead Has a Deadline.",
   description:
     "The precision CRM for service businesses that cannot afford to lose a single enquiry. Real-time capture, AI intelligence, and automated follow-up — built for those who close.",
   keywords: "CRM, lead management, booking, orders, client portal, analytics, service business",
   openGraph: {
-    title: "Last Rites Lead — Every Lead Has a Deadline.",
+    title: "Signal96 — Every Lead Has a Deadline.",
     description: "The precision CRM for service businesses. Capture every lead. Close every deal.",
     type: "website",
   },

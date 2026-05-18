@@ -60,11 +60,11 @@ function Tilt3D({ children, className = "" }: { children: React.ReactNode; class
 
 /* ─── Dashboard mockup ─────────────────────────────────────────────────── */
 const LEADS = [
-  { name:"Rajan Kumar",    type:"Hindu",       value:"$8,500",  status:"new",       time:"2m" },
-  { name:"Mary Fernandez", type:"Catholic",    value:"$12,200", status:"contacted", time:"18m" },
-  { name:"David Lee",      type:"Christian",   value:"$6,800",  status:"new",       time:"32m" },
-  { name:"Priya Nair",     type:"Hindu",       value:"$9,100",  status:"qualified", time:"1h" },
-  { name:"Thomas Ang",     type:"Freethinker", value:"$5,400",  status:"archived",  time:"3h" },
+  { name:"Alex Rivera",    type:"SaaS",         value:"$8,500",  status:"new",       time:"2m" },
+  { name:"Priya Mehta",    type:"Agency",       value:"$12,200", status:"contacted", time:"18m" },
+  { name:"David Chen",     type:"Real Estate",  value:"$6,800",  status:"new",       time:"32m" },
+  { name:"Sarah Johnson",  type:"Healthcare",   value:"$9,100",  status:"qualified", time:"1h" },
+  { name:"Thomas Ng",      type:"E-commerce",   value:"$5,400",  status:"archived",  time:"3h" },
 ];
 const ST: Record<string,string> = {
   new:"bg-emerald-500/15 text-emerald-400",
@@ -84,7 +84,7 @@ function DashMockup() {
         </div>
         <div className="flex-1 flex justify-center">
           <div className="bg-[#1a1a1a] rounded px-3 py-0.5 text-[10px] text-gray-500 font-mono max-w-[200px] w-full text-center border border-white/5">
-            last-rites-lead.vercel.app
+            signal96.vercel.app
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@ function DashMockup() {
             <div className="w-5 h-5 rounded-md bg-blue-600 flex items-center justify-center flex-shrink-0">
               <Target size={10} color="white" />
             </div>
-            <span className="text-[9px] font-bold text-white truncate">Last Rites Lead</span>
+            <span className="text-[9px] font-bold text-white truncate">Signal96</span>
           </div>
           {[
             {icon:Activity, label:"Dashboard"},
@@ -154,7 +154,7 @@ function Logo({ dark=false }: { dark?: boolean }) {
         <Target size={15} color="white" />
       </div>
       <span className={`font-bold text-lg tracking-tight ${dark?"text-slate-900":"text-white"}`} style={{ fontFamily:SANS }}>
-        Last Rites <span className="text-blue-500">Lead</span>
+        Signal<span className="text-blue-500">96</span>
       </span>
     </div>
   );
@@ -230,19 +230,19 @@ function Hero() {
           <motion.div variants={fadeUp}
             className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-300 text-xs font-medium mb-7"
             style={{ fontFamily:SANS }}>
-            <Sparkles size={11} /> Made for Indian Life Memorial
+            <Sparkles size={11} /> Built for teams that move fast
           </motion.div>
           <motion.h1 variants={fadeUp}
             className="text-5xl md:text-6xl font-bold text-white leading-tight mb-5"
             style={{ fontFamily:SANS, letterSpacing:"-0.025em", lineHeight:1.1 }}>
-            Every family<br />
-            deserves a<br />
+            Every lead<br />
+            deserves an<br />
             <span style={{ backgroundImage:"linear-gradient(135deg,#60a5fa,#38bdf8)", WebkitBackgroundClip:"text", WebkitTextFillColor:"transparent" }}>
-              caring response.
+              instant response.
             </span>
           </motion.h1>
           <motion.p variants={fadeUp} className="text-base text-white/55 leading-relaxed mb-8 max-w-md" style={{ fontFamily:SANS }}>
-            When a family reaches out, they need help quickly. This dashboard keeps all your enquiries in one place so you can respond with care — and make sure no one is left waiting.
+            When a prospect reaches out, speed decides who wins the deal. Signal96 keeps every enquiry in one place so your team responds first — every time.
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 mb-10">
             <Link href="/login"
@@ -282,7 +282,7 @@ function Hero() {
             </div>
             <div style={{ fontFamily:SANS }}>
               <div className="text-xs font-semibold text-white">New lead received</div>
-              <div className="text-[10px] text-gray-400">Rajan · Hindu · $8,500</div>
+              <div className="text-[10px] text-gray-400">Alex · SaaS · $8,500</div>
             </div>
           </motion.div>
           <motion.div initial={{ opacity:0, scale:0.85 }} animate={{ opacity:1, scale:1 }}
@@ -309,7 +309,7 @@ function Hero() {
 
 /* ─── Trust marquee ─────────────────────────────────────────────────────── */
 function TrustBar() {
-  const items = ["Instant WhatsApp Alerts","Live Lead Tracking","AI Lead Scoring","Secure Admin Login","CSV Export","Real-Time Analytics","Response Time Tracking","Neon Database","Built for Singapore"];
+  const items = ["Instant WhatsApp Alerts","Live Lead Tracking","AI Lead Scoring","Secure Admin Login","CSV Export","Real-Time Analytics","Response Time Tracking","Neon Database","Multi-Industry CRM"];
   return (
     <div className="bg-slate-50 border-y border-slate-200 py-3 overflow-hidden">
       <motion.div animate={{ x:["0%","-50%"] }} transition={{ duration:28, repeat:Infinity, ease:"linear" }}
@@ -337,7 +337,7 @@ const FEATS = [
 function FeaturePreview({ type }: { type:string }) {
   if (type === "alert") return (
     <div className="space-y-2" style={{ fontFamily:SANS }}>
-      {[{name:"Rajan Kumar",val:"$8,500",ago:"2m"},{name:"Mary Fernandez",val:"$12,200",ago:"18m"}].map(l => (
+      {[{name:"Alex Rivera",val:"$8,500",ago:"2m"},{name:"Priya Mehta",val:"$12,200",ago:"18m"}].map(l => (
         <motion.div key={l.name} initial={{ opacity:0, x:-12 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }}
           className="flex items-center gap-2.5 bg-white rounded-lg p-2.5 shadow-sm border border-slate-100">
           <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-[10px] font-bold text-white flex-shrink-0">{l.name[0]}</div>
@@ -368,7 +368,7 @@ function FeaturePreview({ type }: { type:string }) {
   );
   if (type === "ai") return (
     <div className="space-y-1.5" style={{ fontFamily:SANS }}>
-      {[{name:"Rajan Kumar",score:94,tag:"Priority",c:"#dc2626"},{name:"Mary Fernandez",score:81,tag:"Warm",c:"#ea580c"},{name:"David Lee",score:67,tag:"Medium",c:"#ca8a04"}].map((l,i) => (
+      {[{name:"Alex Rivera",score:94,tag:"Priority",c:"#dc2626"},{name:"Priya Mehta",score:81,tag:"Warm",c:"#ea580c"},{name:"David Chen",score:67,tag:"Medium",c:"#ca8a04"}].map((l,i) => (
         <motion.div key={l.name} initial={{ opacity:0, y:6 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }}
           transition={{ delay:i*0.08 }}
           className="flex items-center gap-2.5 bg-white rounded-lg p-2.5 shadow-sm border border-slate-100">
@@ -393,7 +393,7 @@ function FeaturePreview({ type }: { type:string }) {
     <div className="bg-white rounded-lg p-3 border border-slate-100 shadow-sm" style={{ fontFamily:SANS }}>
       <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Select fields to export</div>
       <div className="flex flex-wrap gap-1 mb-2.5">
-        {["Name","Email","Phone","Service","Casket","Value","Status","Date"].map(f => (
+        {["Name","Email","Phone","Service","Value","Status","Date"].map(f => (
           <div key={f} className="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100">{f}</div>
         ))}
       </div>
@@ -404,9 +404,9 @@ function FeaturePreview({ type }: { type:string }) {
   );
   if (type === "whatsapp") return (
     <div className="bg-white rounded-lg p-3 border border-slate-100 shadow-sm" style={{ fontFamily:SANS }}>
-      <div className="text-[10px] text-slate-400 mb-1.5">Pre-filled message for Rajan Kumar</div>
+      <div className="text-[10px] text-slate-400 mb-1.5">Pre-filled message for Alex Rivera</div>
       <div className="bg-slate-50 rounded p-2 text-[9px] text-slate-700 border border-slate-200 leading-relaxed mb-2">
-        "Hi Rajan, this is Indian Life Memorial. Thank you for your enquiry. We are ready to assist with a Hindu funeral. Can we speak now?"
+        "Hi Alex, thanks for reaching out. We received your enquiry and would love to help. Are you free for a quick call?"
       </div>
       <div className="flex items-center justify-center gap-1.5 text-white text-xs font-semibold py-1.5 rounded-lg" style={{ background:"#25d366" }}>
         <MessageCircle size={10} /> Send via WhatsApp
@@ -425,10 +425,10 @@ function FeaturesSection() {
         <motion.div variants={staggerWrap()} initial="hidden" animate={inView?"show":"hidden"} className="text-center mb-12">
           <motion.p variants={fadeUp} className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-3" style={{ fontFamily:SANS }}>Everything included</motion.p>
           <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-bold text-slate-900 mb-3" style={{ fontFamily:SANS, letterSpacing:"-0.02em" }}>
-            Purpose-built for Singapore<br />funeral businesses
+            Purpose-built for<br />high-velocity sales teams
           </motion.h2>
           <motion.p variants={fadeUp} className="text-slate-500 max-w-md mx-auto text-sm leading-relaxed" style={{ fontFamily:SANS }}>
-            Not a generic CRM with funeral features bolted on. Every screen, every alert, and every report was designed around how Indian funeral businesses in Singapore actually operate.
+            Not a watered-down generic CRM. Every screen, every alert, and every report was designed around one thing — closing enquiries before your competitors even open their laptop.
           </motion.p>
         </motion.div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -473,7 +473,7 @@ function DashboardSection() {
             Your entire lead pipeline,<br />one screen
           </motion.h2>
           <motion.p variants={fadeUp} className="text-sm text-slate-500 max-w-md mx-auto" style={{ fontFamily:SANS }}>
-            From the moment a family submits a quote request on your website to the moment you close the arrangement — tracked, scored, and acted on here.
+            From the moment a prospect submits an enquiry on your website to the moment you close the deal — tracked, scored, and acted on here.
           </motion.p>
         </motion.div>
         <div className="flex justify-center gap-2 mb-6">
@@ -490,7 +490,7 @@ function DashboardSection() {
           <div className="rounded-t-xl border border-b-0 border-slate-200 bg-white px-4 py-3 flex items-center gap-3">
             <div className="flex gap-1.5">{["#FF5F57","#FEBC2E","#28C840"].map(c=><div key={c} className="w-2.5 h-2.5 rounded-full" style={{ background:c }} />)}</div>
             <div className="flex-1 bg-slate-100 rounded px-3 py-1 text-[10px] text-slate-400 font-mono max-w-xs mx-auto text-center">
-              last-rites-lead.vercel.app/dashboard/{tab}
+              signal96.vercel.app/dashboard/{tab}
             </div>
           </div>
           <AnimatePresence mode="wait">
@@ -503,7 +503,7 @@ function DashboardSection() {
                       <div className="w-6 h-6 rounded-lg bg-blue-600 flex items-center justify-center flex-shrink-0">
                         <Target size={12} color="white" />
                       </div>
-                      <span className="text-xs font-bold text-white truncate" style={{ fontFamily:SANS }}>Last Rites Lead</span>
+                      <span className="text-xs font-bold text-white truncate" style={{ fontFamily:SANS }}>Signal96</span>
                     </div>
                     {[
                       {icon:Activity, label:"Dashboard"},
@@ -573,7 +573,7 @@ function DashboardSection() {
                         <div className="rounded-xl border border-white/6 p-3" style={{ background:"#0d0d0d" }}>
                           <div className="text-xs text-gray-400 font-medium mb-2.5" style={{ fontFamily:SANS }}>Service Breakdown</div>
                           <div className="space-y-2">
-                            {[{l:"Hindu / Indian",p:52,c:"#f97316"},{l:"Catholic",p:23,c:"#8b5cf6"},{l:"Christian",p:15,c:"#3b82f6"},{l:"Freethinker",p:10,c:"#10b981"}].map(s=>(
+                            {[{l:"SaaS",p:52,c:"#f97316"},{l:"Agency",p:23,c:"#8b5cf6"},{l:"Real Estate",p:15,c:"#3b82f6"},{l:"Healthcare",p:10,c:"#10b981"}].map(s=>(
                               <div key={s.l}>
                                 <div className="flex justify-between text-[9px] text-gray-500 mb-0.5" style={{ fontFamily:SANS }}><span>{s.l}</span><span>{s.p}%</span></div>
                                 <div className="h-1 rounded-full bg-white/5 overflow-hidden">
@@ -620,7 +620,7 @@ function HowItWorks() {
   const ref = useRef(null);
   const inView = useInView(ref, { once:true, margin:"-80px" });
   const steps = [
-    { n:"01", icon:Users, color:"#2563eb", title:"Family submits a quote", desc:"A family visits Indian Life Memorial online, completes the Get a Quote journey — service type, casket choice, estimated cost — and hits submit." },
+    { n:"01", icon:Users, color:"#2563eb", title:"Customer submits an enquiry", desc:"A prospect visits your website, fills out a contact or quote form — service interest, budget, and details — and hits submit. Signal96 captures it instantly." },
     { n:"02", icon:Zap, color:"#16a34a", title:"You get an instant alert", desc:"Within seconds, a WhatsApp message and email hit your phone with the full lead — name, number, service required, and estimated value. No delays." },
     { n:"03", icon:TrendingUp, color:"#7c3aed", title:"Log in and close the deal", desc:"Open the dashboard, see your AI-scored lead list, click WhatsApp to send a personalised message, and update the status as you work it." },
   ];
@@ -633,7 +633,7 @@ function HowItWorks() {
             From enquiry to response<br />in under 5 minutes
           </motion.h2>
           <motion.p variants={fadeUp} className="text-sm text-slate-500 max-w-lg mx-auto" style={{ fontFamily:SANS }}>
-            Singapore families are overwhelmed during a bereavement. The first business that responds with clarity and care wins the arrangement.
+            Prospects evaluate multiple vendors within minutes of reaching out. The first team to respond wins.
           </motion.p>
         </motion.div>
         <div className="grid lg:grid-cols-3 gap-6">
@@ -667,7 +667,7 @@ function Pricing() {
   const [yearly, setYearly] = useState(true);
 
   const INCLUDED = [
-    "Unlimited lead captures from Indian Life Memorial",
+    "Unlimited lead captures from any connected source",
     "Instant WhatsApp + email alerts on every enquiry",
     "Full CRM dashboard — leads, status, history",
     "AI lead scoring and urgency detection",
@@ -677,7 +677,7 @@ function Pricing() {
     "CSV export with 20 customisable fields",
     "Secure admin login (HMAC sessions, HTTP-only cookies)",
     "Neon Postgres database — your data, hosted privately",
-    "Casket image display in customer confirmation email",
+    "Product/service image display in customer confirmation email",
     "24/7 uptime on Vercel infrastructure",
   ];
 
@@ -784,15 +784,15 @@ function Stats() {
             Why response speed wins
           </motion.h2>
           <motion.p variants={fadeUp} className="text-slate-400 text-sm" style={{ fontFamily:SANS }}>
-            The data is clear. Singapore families choose quickly.
+            The data is clear. Prospects decide fast.
           </motion.p>
         </motion.div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { n:9, suffix:"×", label:"higher conversion when you respond within 5 minutes vs 60 minutes", c:"#60a5fa" },
-            { n:62, suffix:"%", label:"of Singapore funeral enquiries receive no timely follow-up", c:"#f87171" },
+            { n:78, suffix:"%", label:"of inbound leads receive no timely follow-up, across all industries", c:"#f87171" },
             { n:5, suffix:"s", label:"average alert delivery time from form submit to your WhatsApp", c:"#34d399" },
-            { n:3, suffix:"+", label:"funeral homes a bereaved family typically contacts before deciding", c:"#a78bfa" },
+            { n:3, suffix:"+", label:"vendors a prospect typically evaluates before committing to one", c:"#a78bfa" },
           ].map(({n,suffix,label,c}) => (
             <motion.div key={label} initial={{ opacity:0, y:20 }} animate={inView?{opacity:1,y:0}:{}} transition={{ duration:0.5 }}
               className="rounded-xl p-5 border border-white/8" style={{ background:"#111" }}>
@@ -821,13 +821,13 @@ function CTA() {
           <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage:"linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px)", backgroundSize:"32px 32px" }} />
           <div className="relative z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/15 text-white text-xs font-medium mb-6 border border-white/20" style={{ fontFamily:SANS }}>
-              <Lock size={11} /> Secure · Singapore-hosted · Purpose-built
+              <Lock size={11} /> Secure · Always-on · Purpose-built
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" style={{ fontFamily:SANS, letterSpacing:"-0.02em" }}>
               The next enquiry is coming.<br />Will you be ready?
             </h2>
             <p className="text-blue-100 text-sm mb-8 max-w-lg mx-auto leading-relaxed" style={{ fontFamily:SANS }}>
-              Families in Singapore search for funeral services at all hours. Log in now and ensure every lead from Indian Life Memorial is captured, alerted, and acted on — day or night.
+              Prospects search for solutions at all hours. Log in now and ensure every enquiry is captured, alerted, and acted on — day or night.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link href="/login"
@@ -835,10 +835,10 @@ function CTA() {
                 style={{ fontFamily:SANS }}>
                 Enter the Dashboard <ArrowRight size={16} />
               </Link>
-              <a href="https://wa.me/6596875688"
+              <a href="/login"
                 className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-xl text-sm font-medium text-white border border-white/30 hover:bg-white/10 transition-all duration-200"
                 style={{ fontFamily:SANS }}>
-                <MessageCircle size={15} /> WhatsApp Support
+                <MessageCircle size={15} /> Contact Support
               </a>
             </div>
           </div>
@@ -855,10 +855,10 @@ function Footer() {
       <div className="mx-auto max-w-6xl px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <Logo />
         <p className="text-xs text-slate-500 text-center" style={{ fontFamily:SANS }}>
-          Built for Indian Life Memorial Singapore · {new Date().getFullYear()} · Last Rites Lead
+          © {new Date().getFullYear()} Signal96. All rights reserved.
         </p>
         <div className="flex items-center gap-5">
-          {[["Dashboard","/login"],["Contact","mailto:admin@indianlifememorial.com"],["Main Site","https://indian-life-memorial.vercel.app"]].map(([l,h]) => (
+          {[["Dashboard","/login"],["Privacy","#"]].map(([l,h]) => (
             <a key={l} href={h} className="text-xs text-slate-500 hover:text-white transition-colors" style={{ fontFamily:SANS }}>{l}</a>
           ))}
         </div>

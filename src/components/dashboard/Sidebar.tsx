@@ -46,7 +46,7 @@ function SidebarContent({ collapsed, onClose }: { collapsed?: boolean; onClose?:
               className="font-bold text-sm whitespace-nowrap"
               style={{ fontFamily: "'Playfair Display', serif" }}
             >
-              Last Rites <span style={{ color: "var(--accent-light)" }}>Lead</span>
+              Signal<span style={{ color: "var(--accent-light)" }}>96</span>
             </span>
           )}
         </div>

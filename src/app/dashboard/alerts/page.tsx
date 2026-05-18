@@ -126,7 +126,7 @@ export default function AlertsPage() {
               {visible.map(lead => {
                 const age = minutesAgo(lead.created_at);
                 const { color, bg, border, label: urgLabel } = urgencyColor(age);
-                const waUrl = `https://wa.me/${lead.phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${lead.name}, this is Indian Life Memorial. We received your funeral enquiry and would like to assist you.`)}`;
+                const waUrl = `https://wa.me/${lead.phone.replace(/\D/g, "")}?text=${encodeURIComponent(`Hi ${lead.name}, thanks for your enquiry. We would love to help — are you available for a quick call?`)}`;
                 const hoursDisplay = age >= 60 ? `${Math.floor(age / 60)}h ${age % 60}m` : `${age}m`;
 
                 return (
@@ -207,8 +207,8 @@ export default function AlertsPage() {
             <p className="text-sm font-semibold mb-1" style={{ color: "var(--text-primary)" }}>Why speed matters</p>
             <p className="text-xs leading-relaxed" style={{ color: "var(--text-secondary)" }}>
               Leads contacted within 5 minutes are <strong style={{ color: "var(--primary-light)" }}>9× more likely to convert</strong>.
-              Families seeking funeral services are under immense stress — a fast, compassionate response builds trust immediately.
-              Your 5-minute promise is a key differentiator.
+              Prospects evaluate multiple vendors simultaneously — the first team to respond earns the conversation.
+              Speed is your single biggest competitive edge.
             </p>
           </div>
         </div>
