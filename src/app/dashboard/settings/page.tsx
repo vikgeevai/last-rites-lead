@@ -207,7 +207,7 @@ export default function SettingsPage() {
               <div className="flex items-center gap-2">
                 <div className="flex-1 px-3 py-2.5 rounded-xl text-xs font-mono"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--glass-border)", color: "var(--primary-light)" }}>
-                  {CRM_URL || "https://96kapital.vercel.app"}/api/leads
+                  {CRM_URL || "https://www.96kapital.com"}/api/leads
                 </div>
               </div>
             </Section>

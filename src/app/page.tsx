@@ -84,7 +84,7 @@ function DashMockup() {
         </div>
         <div className="flex-1 flex justify-center">
           <div className="bg-[#1a1a1a] rounded px-3 py-0.5 text-[10px] text-gray-500 font-mono max-w-[200px] w-full text-center border border-white/5">
-            96kapital.vercel.app
+            www.96kapital.com
           </div>
         </div>
       </div>
@@ -490,7 +490,7 @@ function DashboardSection() {
           <div className="rounded-t-xl border border-b-0 border-slate-200 bg-white px-4 py-3 flex items-center gap-3">
             <div className="flex gap-1.5">{["#FF5F57","#FEBC2E","#28C840"].map(c=><div key={c} className="w-2.5 h-2.5 rounded-full" style={{ background:c }} />)}</div>
             <div className="flex-1 bg-slate-100 rounded px-3 py-1 text-[10px] text-slate-400 font-mono max-w-xs mx-auto text-center">
-              96kapital.vercel.app/dashboard/{tab}
+              www.96kapital.com/dashboard/{tab}
             </div>
           </div>
           <AnimatePresence mode="wait">

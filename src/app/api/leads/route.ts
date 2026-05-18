@@ -3,6 +3,8 @@ import sql, { initDb } from "@/lib/db";
 import { sendCustomerEmail, sendBusinessLeadEmail } from "@/lib/email";
 
 const ALLOWED_ORIGINS = [
+  "https://www.96kapital.com",
+  "https://96kapital.com",
   "https://96kapital.vercel.app",
   "http://localhost:5173",
   "http://localhost:3000",
