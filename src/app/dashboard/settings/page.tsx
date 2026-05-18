@@ -3,7 +3,7 @@ import { useState } from "react";
 import { PageShell } from "@/components/dashboard/PageShell";
 import { motion } from "framer-motion";
 import {
-  User, Building2, Bell, Key, Shield, CheckCircle2, Copy, Eye, EyeOff,
+  User, Building2, Bell, Key, Shield, CheckCircle2, Copy, Eye, EyeOff, Code,
 } from "lucide-react";
 
 const CRM_URL = process.env.NEXT_PUBLIC_CRM_URL ?? "";
@@ -82,12 +82,65 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<Tab>("Profile");
   const [showKey, setShowKey] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [snippetTab, setSnippetTab] = useState<"html" | "js">("html");
+  const [snippetCopied, setSnippetCopied] = useState(false);
   const apiKey = "353d47822cd9c6b3a3b382c099d36f3cf4331dce238cafe225218ab119d0c26f";
+  const endpoint = `${CRM_URL || "https://www.96kapital.com"}/api/leads`;
 
   const copyKey = () => {
     navigator.clipboard.writeText(apiKey);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const htmlSnippet = `<form id="crm-form">
+  <input name="name" placeholder="Your name" required />
+  <input name="phone" placeholder="Phone number" required />
+  <input name="email" placeholder="Email" type="email" />
+  <input name="service" placeholder="What are you interested in?" />
+  <input name="estimated_cost" placeholder="Budget (optional)" />
+  <textarea name="notes" placeholder="Any additional details"></textarea>
+  <button type="submit">Submit Enquiry</button>
+</form>
+
+<script>
+document.getElementById('crm-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const res = await fetch('${endpoint}', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': '${apiKey}',
+    },
+    body: JSON.stringify(data),
+  });
+  if (res.ok) alert('Enquiry submitted!');
+});
+</script>`;
+
+  const jsSnippet = `// Works in React, Vue, plain JS, or any framework
+await fetch('${endpoint}', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-api-key': '${apiKey}',
+  },
+  body: JSON.stringify({
+    name: 'Alex Rivera',       // required
+    phone: '+1 555 000 0000',  // required
+    email: 'alex@example.com',
+    service: 'SaaS Consulting',
+    estimated_cost: '$5,000',
+    location: 'New York',
+    notes: 'Referred by a colleague',
+  }),
+});`;
+
+  const copySnippet = () => {
+    navigator.clipboard.writeText(snippetTab === "html" ? htmlSnippet : jsSnippet);
+    setSnippetCopied(true);
+    setTimeout(() => setSnippetCopied(false), 2000);
   };
 
   return (
@@ -210,6 +263,96 @@ export default function SettingsPage() {
                   {CRM_URL || "https://www.96kapital.com"}/api/leads
                 </div>
               </div>
+            </Section>
+
+            <Section title="Integration Guide">
+              <p className="text-xs mb-4 leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                Copy one of these snippets into your website or platform to start sending leads to 96 Kapital CRM. The API key and endpoint are pre-filled.
+              </p>
+
+              {/* Snippet tabs */}
+              <div className="flex items-center gap-1 mb-3 p-1 rounded-xl w-fit"
+                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid var(--glass-border)" }}>
+                {(["html", "js"] as const).map(tab => (
+                  <button key={tab} onClick={() => setSnippetTab(tab)}
+                    className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all"
+                    style={{
+                      background: snippetTab === tab ? "var(--primary)" : "transparent",
+                      color: snippetTab === tab ? "white" : "var(--text-muted)",
+                    }}>
+                    {tab === "html" ? "HTML Form" : "JavaScript"}
+                  </button>
+                ))}
+              </div>
+
+              {/* Code block */}
+              <div className="relative rounded-xl overflow-hidden"
+                style={{ background: "rgba(0,0,0,0.35)", border: "1px solid var(--glass-border)" }}>
+                <div className="flex items-center justify-between px-4 py-2 border-b"
+                  style={{ borderColor: "var(--glass-border)" }}>
+                  <div className="flex items-center gap-2">
+                    <Code size={12} style={{ color: "var(--text-muted)" }} />
+                    <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>
+                      {snippetTab === "html" ? "index.html" : "submit.js"}
+                    </span>
+                  </div>
+                  <button onClick={copySnippet}
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition-colors"
+                    style={{
+                      background: snippetCopied ? "rgba(16,185,129,0.15)" : "rgba(255,255,255,0.06)",
+                      color: snippetCopied ? "#10b981" : "var(--text-muted)",
+                      border: `1px solid ${snippetCopied ? "rgba(16,185,129,0.3)" : "var(--glass-border)"}`,
+                    }}>
+                    {snippetCopied ? <><CheckCircle2 size={11} /> Copied!</> : <><Copy size={11} /> Copy</>}
+                  </button>
+                </div>
+                <pre className="p-4 text-xs overflow-x-auto leading-relaxed"
+                  style={{ color: "#a5f3fc", fontFamily: "'JetBrains Mono', monospace", maxHeight: 280 }}>
+                  {snippetTab === "html" ? htmlSnippet : jsSnippet}
+                </pre>
+              </div>
+
+              {/* Field reference */}
+              <div className="mt-4 rounded-xl overflow-hidden" style={{ border: "1px solid var(--glass-border)" }}>
+                <div className="px-4 py-2 text-xs font-semibold" style={{ background: "rgba(255,255,255,0.03)", color: "var(--text-muted)", borderBottom: "1px solid var(--glass-border)" }}>
+                  Accepted fields
+                </div>
+                <table className="w-full text-xs">
+                  <tbody>
+                    {[
+                      ["name", "string", "required", "Contact's full name"],
+                      ["phone", "string", "required", "Phone number"],
+                      ["email", "string", "optional", "Email address"],
+                      ["service", "string", "optional", "Service or product interest"],
+                      ["estimated_cost", "string", "optional", "Budget or deal value"],
+                      ["location", "string", "optional", "City, region, or address"],
+                      ["notes", "string", "optional", "Any additional context"],
+                      ["address", "string", "optional", "Full address"],
+                    ].map(([field, type, req, desc], i) => (
+                      <tr key={field} style={{ background: i % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent" }}>
+                        <td className="px-4 py-2 font-mono" style={{ color: "#a5f3fc" }}>{field}</td>
+                        <td className="px-2 py-2" style={{ color: "var(--text-muted)" }}>{type}</td>
+                        <td className="px-2 py-2">
+                          <span className="px-1.5 py-0.5 rounded text-xs font-semibold"
+                            style={{
+                              background: req === "required" ? "rgba(239,68,68,0.12)" : "rgba(255,255,255,0.06)",
+                              color: req === "required" ? "#f87171" : "var(--text-muted)",
+                            }}>
+                            {req}
+                          </span>
+                        </td>
+                        <td className="px-2 py-2" style={{ color: "var(--text-secondary)" }}>{desc}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <p className="text-xs mt-3 leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                To allow a new domain (e.g. your Webflow or WordPress site), add it to the{" "}
+                <code className="px-1 py-0.5 rounded text-xs" style={{ background: "rgba(255,255,255,0.08)", color: "var(--primary-light)" }}>CORS_ORIGINS</code>{" "}
+                environment variable in your Vercel project settings (comma-separated).
+              </p>
             </Section>
 
             <Section title="Security">

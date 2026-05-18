@@ -2,12 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import sql, { initDb } from "@/lib/db";
 import { sendCustomerEmail, sendBusinessLeadEmail } from "@/lib/email";
 
+const EXTRA_ORIGINS = (process.env.CORS_ORIGINS ?? "").split(",").map(s => s.trim()).filter(Boolean);
 const ALLOWED_ORIGINS = [
   "https://www.96kapital.com",
   "https://96kapital.com",
   "https://96kapital.vercel.app",
   "http://localhost:5173",
   "http://localhost:3000",
+  ...EXTRA_ORIGINS,
 ];
 
 function corsHeaders(origin: string | null) {
@@ -48,19 +50,21 @@ export async function POST(req: NextRequest) {
 
   const {
     name, email, phone, address,
+    service: serviceField,
     planning_type, arrangement_type, disposition_type,
     wake_duration, location,
     coffin_choice, high_end_interest, tentage_selected, floral_photo_frame,
     estimated_cost, deceased_name, death_cert_no,
     selected_coffin_image,
+    notes: notesField,
   } = body;
 
   if (!name || !phone) {
     return NextResponse.json({ error: "name and phone are required" }, { status: 422, headers });
   }
 
-  const service = [arrangement_type, planning_type].filter(Boolean).join(" — ");
-  const notes = [
+  const service = serviceField || [arrangement_type, planning_type].filter(Boolean).join(" — ");
+  const notes = notesField || [
     location && `Location: ${location}`,
     coffin_choice && `Casket: ${coffin_choice}`,
     high_end_interest && high_end_interest !== "No" && `High-end interest: ${high_end_interest}`,
