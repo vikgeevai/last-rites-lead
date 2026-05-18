@@ -182,9 +182,6 @@ function Nav() {
           ))}
         </div>
         <div className="hidden md:flex items-center gap-3">
-          <Link href="/login" className={`text-sm px-4 py-2 rounded-lg font-medium transition-colors ${scrolled?"text-slate-600 hover:text-slate-900":"text-white/70 hover:text-white"}`}>
-            Log in
-          </Link>
           <Link href="/login" className="text-sm px-5 py-2.5 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-colors shadow-md shadow-blue-600/20">
             Log in to Dashboard
           </Link>
