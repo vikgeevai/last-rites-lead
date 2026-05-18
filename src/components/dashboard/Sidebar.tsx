@@ -46,7 +46,7 @@ function SidebarContent({ collapsed, onClose }: { collapsed?: boolean; onClose?:
               className="font-bold text-sm whitespace-nowrap"
               style={{ fontFamily: "'Playfair Display', serif" }}
             >
-              Signal<span style={{ color: "var(--accent-light)" }}>96</span>
+              <span style={{ color: "var(--accent-light)" }}>96</span> Kapital CRM
             </span>
           )}
         </div>

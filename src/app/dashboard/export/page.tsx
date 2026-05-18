@@ -72,7 +72,7 @@ export default function ExportPage() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `signal96-leads-${new Date().toISOString().split("T")[0]}.csv`;
+      a.download = `96kapital-leads-${new Date().toISOString().split("T")[0]}.csv`;
       a.click();
       URL.revokeObjectURL(url);
       setExported(true);

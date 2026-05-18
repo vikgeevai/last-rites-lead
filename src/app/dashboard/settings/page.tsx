@@ -178,7 +178,7 @@ export default function SettingsPage() {
           <>
             <Section title="API Key">
               <p className="text-xs mb-3 leading-relaxed" style={{ color: "var(--text-muted)" }}>
-                This key authenticates requests from your website or app to Signal96. Keep it secret — never share it publicly.
+                This key authenticates requests from your website or app to 96 Kapital CRM. Keep it secret — never share it publicly.
               </p>
               <div className="flex items-center gap-2">
                 <div className="flex-1 px-3 py-2.5 rounded-xl text-xs font-mono overflow-hidden"
@@ -203,11 +203,11 @@ export default function SettingsPage() {
             </Section>
 
             <Section title="CRM Endpoint">
-              <p className="text-xs mb-3" style={{ color: "var(--text-muted)" }}>Use this URL in your website or app to send leads to Signal96.</p>
+              <p className="text-xs mb-3" style={{ color: "var(--text-muted)" }}>Use this URL in your website or app to send leads to 96 Kapital CRM.</p>
               <div className="flex items-center gap-2">
                 <div className="flex-1 px-3 py-2.5 rounded-xl text-xs font-mono"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--glass-border)", color: "var(--primary-light)" }}>
-                  {CRM_URL || "https://signal96.vercel.app"}/api/leads
+                  {CRM_URL || "https://96kapital.vercel.app"}/api/leads
                 </div>
               </div>
             </Section>

@@ -2,8 +2,8 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const BUSINESS_EMAIL = process.env.BUSINESS_EMAIL ?? "hello@signal96.com";
-const FROM_EMAIL = `Signal96 <${BUSINESS_EMAIL}>`;
+const BUSINESS_EMAIL = process.env.BUSINESS_EMAIL ?? "hello@96kapital.com";
+const FROM_EMAIL = `96 Kapital CRM <${BUSINESS_EMAIL}>`;
 const LOGO_URL = process.env.LOGO_URL ?? "";
 const WHATSAPP_NUMBER = process.env.WHATSAPP_NUMBER ?? "";
 
@@ -118,8 +118,8 @@ export async function sendCustomerEmail(data: {
         <!-- Footer -->
         <tr>
           <td style="background:#f8fafc;padding:14px 16px;text-align:center;border-top:1px solid #e2e8f0;">
-            <p style="margin:0 0 3px;font-size:12px;color:#94a3b8;font-weight:600;">Signal96</p>
-            <p style="margin:0;font-size:11px;color:#cbd5e1;">&copy; ${new Date().getFullYear()} Signal96. All rights reserved.</p>
+            <p style="margin:0 0 3px;font-size:12px;color:#94a3b8;font-weight:600;">96 Kapital CRM</p>
+            <p style="margin:0;font-size:11px;color:#cbd5e1;">&copy; ${new Date().getFullYear()} 96 Kapital CRM. All rights reserved.</p>
           </td>
         </tr>
 
@@ -140,17 +140,17 @@ Enquiry Details:
 
 Our team will reach out within 5 minutes.${WHATSAPP_NUMBER ? ` Need help now? WhatsApp us at +${WHATSAPP_NUMBER}.` : ""}
 
-Signal96`;
+96 Kapital CRM`;
 
   return resend.emails.send({
     from: FROM_EMAIL,
     to: data.email,
     replyTo: BUSINESS_EMAIL,
-    subject: `Your Enquiry Confirmation — Signal96`,
+    subject: `Your Enquiry Confirmation — 96 Kapital CRM`,
     html,
     text,
     headers: {
-      "X-Entity-Ref-ID": `s96-customer-${Date.now()}`,
+      "X-Entity-Ref-ID": `96k-customer-${Date.now()}`,
     },
   });
 }
@@ -267,7 +267,7 @@ export async function sendBusinessLeadEmail(data: {
         <!-- Footer -->
         <tr>
           <td style="background:#0f172a;padding:12px 16px;text-align:center;border-top:1px solid #334155;">
-            <p style="margin:0;font-size:11px;color:#475569;">&copy; ${new Date().getFullYear()} Signal96 CRM</p>
+            <p style="margin:0;font-size:11px;color:#475569;">&copy; ${new Date().getFullYear()} 96 Kapital CRM CRM</p>
           </td>
         </tr>
 
@@ -289,7 +289,7 @@ Contact:
 Service Details:
   Service Interest: ${data.service}${data.planDetails ? `\n  Details: ${data.planDetails}` : ""}${data.location ? `\n  Preferred Location: ${data.location}` : ""}${data.notes ? `\n\nNotes: ${data.notes}` : ""}
 
--- Signal96 CRM`;
+-- 96 Kapital CRM CRM`;
 
   return resend.emails.send({
     from: FROM_EMAIL,
@@ -298,7 +298,7 @@ Service Details:
     html,
     text,
     headers: {
-      "X-Entity-Ref-ID": `s96-lead-${Date.now()}`,
+      "X-Entity-Ref-ID": `96k-lead-${Date.now()}`,
     },
   });
 }

@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
   const message = await client.messages.create({
     model: "claude-sonnet-4-6",
     max_tokens: 900,
-    system: `You are a CRM performance analyst for a B2B/B2C service business using Signal96. Your role is to analyse lead pipeline data and surface 4–6 concise, highly actionable business insights applicable to any industry.
+    system: `You are a CRM performance analyst for a B2B/B2C service business using 96 Kapital CRM. Your role is to analyse lead pipeline data and surface 4–6 concise, highly actionable business insights applicable to any industry.
 
 Return ONLY a valid JSON array — no prose, no markdown, no explanation. Each element must have exactly these fields:
 - "type": one of "critical", "warning", "positive", or "info"

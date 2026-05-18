@@ -18,7 +18,7 @@ function Logo() {
         className="font-bold text-2xl tracking-tight"
         style={{ fontFamily: "'Playfair Display', serif" }}
       >
-        Signal<span style={{ color: "var(--accent-light)" }}>96</span>
+        <span style={{ color: "var(--accent-light)" }}>96</span> Kapital CRM
       </span>
     </div>
   );

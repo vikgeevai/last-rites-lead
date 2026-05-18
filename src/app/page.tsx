@@ -84,7 +84,7 @@ function DashMockup() {
         </div>
         <div className="flex-1 flex justify-center">
           <div className="bg-[#1a1a1a] rounded px-3 py-0.5 text-[10px] text-gray-500 font-mono max-w-[200px] w-full text-center border border-white/5">
-            signal96.vercel.app
+            96kapital.vercel.app
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@ function DashMockup() {
             <div className="w-5 h-5 rounded-md bg-blue-600 flex items-center justify-center flex-shrink-0">
               <Target size={10} color="white" />
             </div>
-            <span className="text-[9px] font-bold text-white truncate">Signal96</span>
+            <span className="text-[9px] font-bold text-white truncate">96 Kapital CRM</span>
           </div>
           {[
             {icon:Activity, label:"Dashboard"},
@@ -154,7 +154,7 @@ function Logo({ dark=false }: { dark?: boolean }) {
         <Target size={15} color="white" />
       </div>
       <span className={`font-bold text-lg tracking-tight ${dark?"text-slate-900":"text-white"}`} style={{ fontFamily:SANS }}>
-        Signal<span className="text-blue-500">96</span>
+        <span className="text-blue-500">96</span> Kapital CRM
       </span>
     </div>
   );
@@ -242,7 +242,7 @@ function Hero() {
             </span>
           </motion.h1>
           <motion.p variants={fadeUp} className="text-base text-white/55 leading-relaxed mb-8 max-w-md" style={{ fontFamily:SANS }}>
-            When a prospect reaches out, speed decides who wins the deal. Signal96 keeps every enquiry in one place so your team responds first — every time.
+            When a prospect reaches out, speed decides who wins the deal. 96 Kapital CRM keeps every enquiry in one place so your team responds first — every time.
           </motion.p>
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 mb-10">
             <Link href="/login"
@@ -490,7 +490,7 @@ function DashboardSection() {
           <div className="rounded-t-xl border border-b-0 border-slate-200 bg-white px-4 py-3 flex items-center gap-3">
             <div className="flex gap-1.5">{["#FF5F57","#FEBC2E","#28C840"].map(c=><div key={c} className="w-2.5 h-2.5 rounded-full" style={{ background:c }} />)}</div>
             <div className="flex-1 bg-slate-100 rounded px-3 py-1 text-[10px] text-slate-400 font-mono max-w-xs mx-auto text-center">
-              signal96.vercel.app/dashboard/{tab}
+              96kapital.vercel.app/dashboard/{tab}
             </div>
           </div>
           <AnimatePresence mode="wait">
@@ -503,7 +503,7 @@ function DashboardSection() {
                       <div className="w-6 h-6 rounded-lg bg-blue-600 flex items-center justify-center flex-shrink-0">
                         <Target size={12} color="white" />
                       </div>
-                      <span className="text-xs font-bold text-white truncate" style={{ fontFamily:SANS }}>Signal96</span>
+                      <span className="text-xs font-bold text-white truncate" style={{ fontFamily:SANS }}>96 Kapital CRM</span>
                     </div>
                     {[
                       {icon:Activity, label:"Dashboard"},
@@ -620,7 +620,7 @@ function HowItWorks() {
   const ref = useRef(null);
   const inView = useInView(ref, { once:true, margin:"-80px" });
   const steps = [
-    { n:"01", icon:Users, color:"#2563eb", title:"Customer submits an enquiry", desc:"A prospect visits your website, fills out a contact or quote form — service interest, budget, and details — and hits submit. Signal96 captures it instantly." },
+    { n:"01", icon:Users, color:"#2563eb", title:"Customer submits an enquiry", desc:"A prospect visits your website, fills out a contact or quote form — service interest, budget, and details — and hits submit. 96 Kapital CRM captures it instantly." },
     { n:"02", icon:Zap, color:"#16a34a", title:"You get an instant alert", desc:"Within seconds, a WhatsApp message and email hit your phone with the full lead — name, number, service required, and estimated value. No delays." },
     { n:"03", icon:TrendingUp, color:"#7c3aed", title:"Log in and close the deal", desc:"Open the dashboard, see your AI-scored lead list, click WhatsApp to send a personalised message, and update the status as you work it." },
   ];
@@ -855,7 +855,7 @@ function Footer() {
       <div className="mx-auto max-w-6xl px-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <Logo />
         <p className="text-xs text-slate-500 text-center" style={{ fontFamily:SANS }}>
-          © {new Date().getFullYear()} Signal96. All rights reserved.
+          © {new Date().getFullYear()} 96 Kapital CRM. All rights reserved.
         </p>
         <div className="flex items-center gap-5">
           {[["Dashboard","/login"],["Privacy","#"]].map(([l,h]) => (
