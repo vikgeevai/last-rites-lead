@@ -44,7 +44,7 @@ function SidebarContent({ collapsed, onClose }: { collapsed?: boolean; onClose?:
           {!collapsed && (
             <span
               className="font-bold text-sm whitespace-nowrap"
-              style={{ fontFamily: "'Playfair Display', serif" }}
+              style={{ fontFamily: "'Inter', system-ui, sans-serif" }}
             >
               <span style={{ color: "var(--accent-light)" }}>96</span> Kapital CRM
             </span>

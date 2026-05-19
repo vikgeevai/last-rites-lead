@@ -16,7 +16,7 @@ function Logo() {
       </div>
       <span
         className="font-bold text-2xl tracking-tight"
-        style={{ fontFamily: "'Playfair Display', serif" }}
+        style={{ fontFamily: "'Inter', system-ui, sans-serif" }}
       >
         <span style={{ color: "var(--accent-light)" }}>96</span> Kapital CRM
       </span>
@@ -95,7 +95,7 @@ export default function LoginPage() {
           </div>
           <h2
             className="text-5xl font-bold leading-tight mb-6"
-            style={{ fontFamily: "'Playfair Display', serif", lineHeight: 1.1 }}
+            style={{ fontFamily: "'Inter', system-ui, sans-serif", lineHeight: 1.1 }}
           >
             Your leads<br />
             are waiting.
@@ -137,7 +137,7 @@ export default function LoginPage() {
           <div className="mb-10">
             <h1
               className="text-4xl font-bold mb-3"
-              style={{ fontFamily: "'Playfair Display', serif", lineHeight: 1.1 }}
+              style={{ fontFamily: "'Inter', system-ui, sans-serif", lineHeight: 1.1 }}
             >
               Welcome back.
             </h1>
