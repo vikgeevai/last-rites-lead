@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Target, LayoutDashboard, Users, BarChart3, Bell, Settings,
-  LogOut, ChevronLeft, ChevronRight, Bot, FileDown, X,
+  LogOut, ChevronLeft, ChevronRight, Bot, FileDown, Upload, X,
 } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -15,6 +15,7 @@ const NAV = [
   { icon: Bot,             label: "AI Insights", href: "/dashboard/ai",          badge: "4"  },
   { icon: Bell,            label: "Alerts",      href: "/dashboard/alerts",      badge: "2"  },
   { icon: FileDown,        label: "Export",      href: "/dashboard/export",      badge: null },
+  { icon: Upload,          label: "Import",      href: "/dashboard/import",      badge: null },
 ];
 
 interface SidebarProps {
