@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Papa from "papaparse";
+import * as XLSX from "xlsx";
 
 const API_KEY = process.env.NEXT_PUBLIC_CRM_API_KEY ?? "";
 
@@ -98,19 +99,36 @@ export default function ImportPage() {
     setStep(2);
   }, []);
 
-  // ── CSV file drop / browse ────────────────────────────────────────────
-  const handleFile = useCallback((file: File) => {
-    if (!file.name.endsWith(".csv")) {
-      alert("Please upload a .csv file. In Google Sheets: File → Download → CSV.");
+  // ── CSV / XLSX file drop / browse ────────────────────────────────────
+  const handleFile = useCallback(async (file: File) => {
+    const name = file.name.toLowerCase();
+    const isXlsx = name.endsWith(".xlsx") || name.endsWith(".xls");
+    const isCsv  = name.endsWith(".csv");
+
+    if (!isCsv && !isXlsx) {
+      alert("Please upload a .csv or .xlsx file.");
       return;
     }
-    Papa.parse<string[]>(file, {
-      complete(result) {
-        const [headerRow, ...dataRows] = result.data.filter(r => r.some(c => c.trim()));
-        processCSVData(headerRow, dataRows);
-      },
-      skipEmptyLines: true,
-    });
+
+    if (isXlsx) {
+      const buffer = await file.arrayBuffer();
+      const workbook = XLSX.read(buffer, { type: "array" });
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+      const data = XLSX.utils.sheet_to_json<unknown[]>(sheet, { header: 1, defval: "" });
+      const rows = (data as unknown[][])
+        .map(row => row.map(cell => String(cell ?? "")))
+        .filter(row => row.some(c => c.trim()));
+      const [headerRow, ...dataRows] = rows;
+      processCSVData(headerRow, dataRows);
+    } else {
+      Papa.parse<string[]>(file, {
+        complete(result) {
+          const [headerRow, ...dataRows] = result.data.filter(r => r.some(c => c.trim()));
+          processCSVData(headerRow, dataRows);
+        },
+        skipEmptyLines: true,
+      });
+    }
   }, [processCSVData]);
 
   const onDrop = useCallback((e: React.DragEvent) => {
@@ -277,16 +295,16 @@ export default function ImportPage() {
                     </div>
                     <div className="text-center">
                       <p className="text-sm font-semibold" style={{ color: "var(--text-primary)" }}>
-                        Drop your CSV here or click to browse
+                        Drop your file here or click to browse
                       </p>
                       <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>
-                        Accepts .csv files · In Google Sheets: <strong>File → Download → CSV</strong>
+                        Accepts <strong>.csv</strong> and <strong>.xlsx</strong> · In Google Sheets: <strong>File → Download → CSV or Excel</strong>
                       </p>
                     </div>
                     <input
                       ref={fileInputRef}
                       type="file"
-                      accept=".csv"
+                      accept=".csv,.xlsx,.xls"
                       className="absolute inset-0 opacity-0 cursor-pointer"
                       onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
                     />
@@ -571,7 +589,7 @@ export default function ImportPage() {
                 <p className="text-sm font-semibold mb-1" style={{ color: "var(--text-primary)" }}>How to export from Google Sheets</p>
                 <ol className="text-xs space-y-1 list-decimal list-inside" style={{ color: "var(--text-secondary)" }}>
                   <li>Open the sheet in Google Sheets</li>
-                  <li>Click <strong>File → Download → Comma-separated values (.csv)</strong></li>
+                  <li>Click <strong>File → Download → CSV (.csv)</strong> or <strong>Microsoft Excel (.xlsx)</strong></li>
                   <li>Upload the downloaded file above</li>
                 </ol>
                 <p className="text-xs mt-2" style={{ color: "var(--text-secondary)" }}>
