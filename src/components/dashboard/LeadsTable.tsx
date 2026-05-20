@@ -106,19 +106,23 @@ export function LeadsTable() {
     if (search) {
       const q = search.toLowerCase();
       data = data.filter((l) =>
-        l.name.toLowerCase().includes(q) ||
-        l.email.toLowerCase().includes(q) ||
-        l.service.toLowerCase().includes(q)
+        (l.name    ?? "").toLowerCase().includes(q) ||
+        (l.email   ?? "").toLowerCase().includes(q) ||
+        (l.phone   ?? "").toLowerCase().includes(q) ||
+        (l.service ?? "").toLowerCase().includes(q)
       );
     }
     if (filterStatus !== "all") {
       data = data.filter((l) => l.status === filterStatus);
     }
     data.sort((a, b) => {
-      let va = a[sortCol] as string, vb = b[sortCol] as string;
+      let va: string, vb: string;
       if (sortCol === "status") {
         va = STATUS_ORDER.indexOf(a.status).toString();
         vb = STATUS_ORDER.indexOf(b.status).toString();
+      } else {
+        va = (a[sortCol] as string) ?? "";
+        vb = (b[sortCol] as string) ?? "";
       }
       return sortDir === "asc" ? va.localeCompare(vb) : vb.localeCompare(va);
     });
@@ -262,7 +266,7 @@ export function LeadsTable() {
                 className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0 mt-0.5"
                 style={{ background: "var(--gradient)" }}
               >
-                {lead.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                {(lead.name || "?").split(" ").map((n) => n[0] ?? "").join("").slice(0, 2).toUpperCase() || "?"}
               </div>
 
               {/* Info */}
@@ -294,7 +298,7 @@ export function LeadsTable() {
                     </span>
                   )}
                   <span className="text-xs ml-auto" style={{ color: "var(--text-muted)" }}>
-                    {new Date(lead.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                    {lead.date ? new Date(lead.date).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "—"}
                   </span>
                 </div>
               </div>
@@ -388,10 +392,10 @@ export function LeadsTable() {
                   {/* Date */}
                   <td className="px-4 py-3.5">
                     <div className="text-xs font-medium" style={{ color: "var(--text-secondary)" }}>
-                      {new Date(lead.date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                      {lead.date ? new Date(lead.date).toLocaleDateString("en-US", { month: "short", day: "numeric" }) : "—"}
                     </div>
                     <div className="text-xs" style={{ color: "var(--text-muted)" }}>
-                      {new Date(lead.date).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })}
+                      {lead.date ? new Date(lead.date).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }) : ""}
                     </div>
                   </td>
 
@@ -402,7 +406,7 @@ export function LeadsTable() {
                         className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
                         style={{ background: "var(--gradient)" }}
                       >
-                        {lead.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
+                        {(lead.name || "?").split(" ").map((n) => n[0] ?? "").join("").slice(0, 2).toUpperCase() || "?"}
                       </div>
                       <div>
                         <div className="text-sm font-medium">{lead.name}</div>
