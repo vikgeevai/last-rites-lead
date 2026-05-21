@@ -38,6 +38,19 @@ export const SOURCE_CONFIGS: Record<string, SourceConfig> = {
     color: "#2563EB",
     metadataColumns: [],
   },
+  "indian-life-memorial": {
+    label: "Indian Life Memorial",
+    color: "#B45309",
+    metadataColumns: [
+      { key: "arrangement_type",  label: "Service Type"  },
+      { key: "planning_type",     label: "Planning"      },
+      { key: "disposition_type",  label: "Disposition"   },
+      { key: "wake_duration",     label: "Wake"          },
+      { key: "location",          label: "Wake Location" },
+      { key: "coffin_choice",     label: "Casket"        },
+      { key: "estimated_cost",    label: "Est. Cost"     },
+    ],
+  },
 };
 
 /** Returns config for a source, with a sensible fallback for unknown sources. */
