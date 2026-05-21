@@ -36,4 +36,11 @@ export async function initDb() {
       response_time     VARCHAR(50)
     )
   `;
+
+  // Add metadata JSONB column for source-specific quiz/form fields.
+  // IF NOT EXISTS means this is safe to run on every cold start — existing rows
+  // are unaffected and get an empty object default.
+  await sql`
+    ALTER TABLE leads ADD COLUMN IF NOT EXISTS metadata JSONB DEFAULT '{}'
+  `;
 }

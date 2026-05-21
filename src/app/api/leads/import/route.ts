@@ -40,6 +40,7 @@ interface LeadRow {
   notes?: string;
   address?: string;
   source?: string;
+  metadata?: Record<string, string>;
 }
 
 export async function POST(req: NextRequest) {
@@ -81,12 +82,14 @@ export async function POST(req: NextRequest) {
       continue;
     }
 
+    const metadataJson = row.metadata ? JSON.stringify(row.metadata) : "{}";
+
     try {
       await sql`
         INSERT INTO leads (
           name, email, phone, address,
           service, source, status, notes,
-          location, estimated_cost
+          location, estimated_cost, metadata
         ) VALUES (
           ${name || null},
           ${row.email?.trim() || null},
@@ -97,7 +100,8 @@ export async function POST(req: NextRequest) {
           'new',
           ${row.notes?.trim() || null},
           ${row.location?.trim() || null},
-          ${row.estimated_cost?.trim() || null}
+          ${row.estimated_cost?.trim() || null},
+          ${metadataJson}::jsonb
         )
       `;
       inserted++;

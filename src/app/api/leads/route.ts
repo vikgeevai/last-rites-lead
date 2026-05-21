@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401, headers });
   }
 
-  let body: Record<string, string>;
+  let body: Record<string, unknown>;
   try {
     body = await req.json();
   } catch {
@@ -51,13 +51,15 @@ export async function POST(req: NextRequest) {
   const {
     name, email, phone, address,
     service: serviceField,
+    source: sourceField,
+    metadata,
     planning_type, arrangement_type, disposition_type,
     wake_duration, location,
     coffin_choice, high_end_interest, tentage_selected, floral_photo_frame,
     estimated_cost, deceased_name, death_cert_no,
     selected_coffin_image,
     notes: notesField,
-  } = body;
+  } = body as Record<string, string> & { metadata?: Record<string, string> };
 
   if (!name || !phone) {
     return NextResponse.json({ error: "name and phone are required" }, { status: 422, headers });
@@ -74,6 +76,9 @@ export async function POST(req: NextRequest) {
     death_cert_no && `Death cert: ${death_cert_no}`,
   ].filter(Boolean).join(" · ");
 
+  const source = sourceField || "website";
+  const metadataJson = metadata ? JSON.stringify(metadata) : "{}";
+
   try {
     await initDb();
 
@@ -84,14 +89,16 @@ export async function POST(req: NextRequest) {
         planning_type, arrangement_type, disposition_type,
         wake_duration, location,
         coffin_choice, high_end_interest, tentage_selected, floral_photo_frame,
-        estimated_cost, deceased_name, death_cert_no
+        estimated_cost, deceased_name, death_cert_no,
+        metadata
       ) VALUES (
         ${name}, ${email ?? null}, ${phone}, ${address ?? null},
-        ${service}, 'website', 'new', ${notes},
+        ${service}, ${source}, 'new', ${notes},
         ${planning_type ?? null}, ${arrangement_type ?? null}, ${disposition_type ?? null},
         ${wake_duration ?? null}, ${location ?? null},
         ${coffin_choice ?? null}, ${high_end_interest ?? null}, ${tentage_selected ?? null}, ${floral_photo_frame ?? null},
-        ${estimated_cost ?? null}, ${deceased_name ?? null}, ${death_cert_no ?? null}
+        ${estimated_cost ?? null}, ${deceased_name ?? null}, ${death_cert_no ?? null},
+        ${metadataJson}::jsonb
       )
       RETURNING id, created_at
     `;
@@ -155,7 +162,8 @@ export async function GET(req: NextRequest) {
         coffin_choice, high_end_interest,
         tentage_selected, floral_photo_frame,
         estimated_cost, deceased_name, death_cert_no,
-        response_time AS "responseTime"
+        response_time AS "responseTime",
+        COALESCE(metadata, '{}') AS metadata
       FROM leads
       ORDER BY created_at DESC
     `;
