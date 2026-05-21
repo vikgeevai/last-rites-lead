@@ -2,6 +2,47 @@ import { NextRequest, NextResponse } from "next/server";
 import sql, { initDb } from "@/lib/db";
 import { sendCustomerEmail, sendBusinessLeadEmail } from "@/lib/email";
 
+// ── Green API WhatsApp admin notification ─────────────────────────────────
+const GREEN_API_URL        = process.env.GREEN_API_URL ?? "";
+const GREEN_INSTANCE_ID    = process.env.GREEN_API_INSTANCE_ID ?? "";
+const GREEN_INSTANCE_TOKEN = process.env.GREEN_API_TOKEN ?? "";
+const WA_NOTIFY_PHONES     = [
+  process.env.WA_NOTIFY_PHONE_1 ?? "",
+  process.env.WA_NOTIFY_PHONE_2 ?? "",
+].filter(Boolean);
+
+async function notifyAdminWhatsApp(data: {
+  name: string; phone: string; service?: string;
+  source?: string; estimated_cost?: string;
+}): Promise<void> {
+  if (!GREEN_API_URL || !GREEN_INSTANCE_ID || !GREEN_INSTANCE_TOKEN || !WA_NOTIFY_PHONES.length) return;
+
+  const sourceLabel = data.source ? ` [${data.source.replace(/-/g, " ")}]` : "";
+  const lines = [
+    `🔔 *New CRM Lead${sourceLabel}*`,
+    `👤 Name: ${data.name}`,
+    `📱 Phone: ${data.phone}`,
+    data.service        ? `🏷️ Service: ${data.service}`         : null,
+    data.estimated_cost ? `💰 Estimate: ${data.estimated_cost}` : null,
+    "",
+    "Reply or call to follow up.",
+  ].filter(Boolean).join("\n");
+
+  const url = `${GREEN_API_URL}/waInstance${GREEN_INSTANCE_ID}/sendMessage/${GREEN_INSTANCE_TOKEN}`;
+  await Promise.allSettled(
+    WA_NOTIFY_PHONES.map((phone) =>
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chatId: `${phone}@c.us`, message: lines }),
+      }).then((r) => {
+        if (!r.ok) console.warn(`[WhatsApp notify] Failed for ${phone}: ${r.status}`);
+      }).catch((err) => console.error("[WhatsApp notify]", err))
+    )
+  );
+}
+// ─────────────────────────────────────────────────────────────────────────
+
 const EXTRA_ORIGINS = (process.env.CORS_ORIGINS ?? "").split(",").map(s => s.trim()).filter(Boolean);
 const ALLOWED_ORIGINS = [
   "https://www.96kapital.com",
@@ -131,6 +172,14 @@ export async function POST(req: NextRequest) {
         }),
       ]);
     }
+
+    // WhatsApp admin notification (non-blocking — fires and forgets)
+    notifyAdminWhatsApp({
+      name, phone,
+      service:        service        || undefined,
+      source:         source         || undefined,
+      estimated_cost: estimated_cost || undefined,
+    }).catch((err) => console.error("[WhatsApp notify]", err));
 
     return NextResponse.json({ success: true, id: lead.id }, { status: 201, headers });
   } catch (err) {

@@ -5,15 +5,15 @@ import {
   Target, LayoutDashboard, Users, BarChart3, Bell, Settings,
   LogOut, ChevronLeft, ChevronRight, Bot, FileDown, Upload, X,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const NAV = [
   { icon: LayoutDashboard, label: "Dashboard",  href: "/dashboard",            badge: null },
-  { icon: Users,           label: "Leads",       href: "/dashboard/leads",       badge: "43" },
+  { icon: Users,           label: "Leads",       href: "/dashboard/leads",       badge: null },
   { icon: BarChart3,       label: "Analytics",   href: "/dashboard/analytics",   badge: null },
-  { icon: Bot,             label: "AI Insights", href: "/dashboard/ai",          badge: "4"  },
-  { icon: Bell,            label: "Alerts",      href: "/dashboard/alerts",      badge: "2"  },
+  { icon: Bot,             label: "AI Insights", href: "/dashboard/ai",          badge: null },
+  { icon: Bell,            label: "Alerts",      href: "/dashboard/alerts",      badge: null },
   { icon: FileDown,        label: "Export",      href: "/dashboard/export",      badge: null },
   { icon: Upload,          label: "Import",      href: "/dashboard/import",      badge: null },
 ];
@@ -25,6 +25,29 @@ interface SidebarProps {
 
 function SidebarContent({ collapsed, onClose }: { collapsed?: boolean; onClose?: () => void }) {
   const pathname = usePathname();
+  const [newLeadsCount, setNewLeadsCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    const apiKey = process.env.NEXT_PUBLIC_CRM_API_KEY;
+    if (!apiKey) return;
+
+    const fetchCount = async () => {
+      try {
+        const res = await fetch("/api/leads/new-count", {
+          headers: { "x-api-key": apiKey },
+          cache: "no-store",
+        });
+        if (res.ok) {
+          const { count } = await res.json();
+          setNewLeadsCount(count);
+        }
+      } catch { /* silent — badge just won't show */ }
+    };
+
+    fetchCount();
+    const interval = setInterval(fetchCount, 60_000); // refresh every 60s
+    return () => clearInterval(interval);
+  }, []);
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -68,6 +91,11 @@ function SidebarContent({ collapsed, onClose }: { collapsed?: boolean; onClose?:
       <nav className="flex-1 py-4 px-2 space-y-0.5 overflow-y-auto">
         {NAV.map(({ icon: Icon, label, href, badge }) => {
           const active = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
+          // Override Leads badge with live new-lead count
+          const liveBadge =
+            href === "/dashboard/leads" && newLeadsCount !== null && newLeadsCount > 0
+              ? String(newLeadsCount)
+              : badge;
           return (
             <Link
               key={href}
@@ -97,12 +125,12 @@ function SidebarContent({ collapsed, onClose }: { collapsed?: boolean; onClose?:
             >
               <Icon size={17} className="flex-shrink-0" style={{ color: active ? "var(--primary-light)" : "inherit" }} />
               {!collapsed && <span className="truncate">{label}</span>}
-              {!collapsed && badge && (
+              {!collapsed && liveBadge && (
                 <span
                   className="ml-auto text-xs font-mono-data px-1.5 py-0.5"
                   style={{ background: "rgba(37,99,235,0.15)", color: "var(--primary-light)" }}
                 >
-                  {badge}
+                  {liveBadge}
                 </span>
               )}
             </Link>
